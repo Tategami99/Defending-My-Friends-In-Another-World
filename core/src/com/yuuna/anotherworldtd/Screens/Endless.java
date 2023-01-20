@@ -5,18 +5,16 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
-import com.yuuna.anotherworldtd.Tools.AssetManager.IsekaiAssets;
+import com.yuuna.anotherworldtd.Tools.AssetManager.EndlessAssets;
 
-public class Isekai extends ScreenAdapter {
+public class Endless extends ScreenAdapter {
 	private TowerDefenseGame game;
 
 	private Viewport viewport;
@@ -25,15 +23,15 @@ public class Isekai extends ScreenAdapter {
 	private SpriteBatch batch;
 	private Table mainTable;
 
-	public Isekai(TowerDefenseGame game){
+	public Endless(TowerDefenseGame game){
 		//set game
 		this.game = game;
 
 		//load assets
-		IsekaiAssets.loadIsekai();
+		EndlessAssets.loadEndless();
 
 		//viewport
-		viewport = new FitViewport(IsekaiAssets.backgroundTextureRegion.getRegionWidth(), IsekaiAssets.backgroundTextureRegion.getRegionHeight());
+		viewport = new FitViewport(EndlessAssets.backgroundTextureRegion.getRegionWidth(), EndlessAssets.backgroundTextureRegion.getRegionHeight());
 
 		//set camera stuff
 		camera = new OrthographicCamera();
@@ -65,26 +63,7 @@ public class Isekai extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		createButton(IsekaiAssets.storyModeDrawable).addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("clicked");
-			}
-		});
-		createButton(IsekaiAssets.endlessModeDrawable).addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("clicked");
-				game.setScreen(new Endless(game));
-			}
-		});
-		createButton(IsekaiAssets.quitGameDrawable).addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("clicked");
-				Gdx.app.exit();
-			}
-		});
+
 	}
 
 	@Override
@@ -96,7 +75,7 @@ public class Isekai extends ScreenAdapter {
 	public void dispose () {
 		stage.dispose();
 		batch.dispose();
-		IsekaiAssets.disposeIsekai();
+		EndlessAssets.disposeEndless();
 	}
 
 
@@ -104,7 +83,7 @@ public class Isekai extends ScreenAdapter {
 	private void renderStuff(){
 		batch.begin();
 		//render code
-		batch.draw(IsekaiAssets.backgroundTextureRegion, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        batch.draw(EndlessAssets.backgroundTextureRegion, 0, 0, camera.viewportWidth, camera.viewportHeight);
 		batch.end();
 	}
 
