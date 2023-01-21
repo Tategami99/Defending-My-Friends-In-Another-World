@@ -31,7 +31,9 @@ public class Endless extends ScreenAdapter {
 		EndlessAssets.loadEndless();
 
 		//viewport
-		viewport = new FitViewport(EndlessAssets.backgroundTextureRegion.getRegionWidth(), EndlessAssets.backgroundTextureRegion.getRegionHeight());
+		int worldWidth = EndlessAssets.endlessMapProperties.get("width", Integer.class)*EndlessAssets.endlessMapProperties.get("tilewidth", Integer.class);
+		int worldHeight = EndlessAssets.endlessMapProperties.get("height", Integer.class)*EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
+		viewport = new FitViewport(worldWidth, worldHeight);
 
 		//set camera stuff
 		camera = new OrthographicCamera();
@@ -44,8 +46,11 @@ public class Endless extends ScreenAdapter {
 		stage.addActor(mainTable);
 		Gdx.input.setInputProcessor(stage);
 
-		//initialize other stuff
+		//batch stuff
 		batch = new SpriteBatch();
+
+		//tilemap stuff
+		EndlessAssets.endlessRenderer.setView(camera);
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class Endless extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT);
 
 		camera.update();
+		EndlessAssets.endlessRenderer.getBatch().setProjectionMatrix(camera.combined);
 		batch.setProjectionMatrix(camera.combined);
 
 		renderStuff();
@@ -82,8 +88,12 @@ public class Endless extends ScreenAdapter {
 	//my methods
 	private void renderStuff(){
 		batch.begin();
-		//render code
+		//render background
         batch.draw(EndlessAssets.backgroundTextureRegion, 0, 0, camera.viewportWidth, camera.viewportHeight);
+		batch.end();
+		EndlessAssets.endlessRenderer.render();
+		batch.begin();
+		//render other stuff
 		batch.end();
 	}
 

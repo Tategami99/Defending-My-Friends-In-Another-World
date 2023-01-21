@@ -2,6 +2,10 @@ package com.yuuna.anotherworldtd.Tools;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -38,14 +42,22 @@ public class AssetManager {
     public static class EndlessAssets{
         public static Texture backgroundTexture;
         public static TextureRegion backgroundTextureRegion;
+        public static TiledMap endlessMap;
+        public static OrthogonalTiledMapRenderer endlessRenderer;
+        public static MapProperties endlessMapProperties;
 
         public static void loadEndless(){
             backgroundTexture = new Texture("IsekaiScreen/isekaibackground.jpg");
             backgroundTextureRegion = new TextureRegion(backgroundTexture);
+            endlessMap = new TmxMapLoader().load("EndlessScreen/endlessmap.tmx");
+            endlessRenderer = new OrthogonalTiledMapRenderer(endlessMap);
+            endlessMapProperties = endlessMap.getProperties();
         }
 
         public static void disposeEndless(){
             backgroundTexture.dispose();
+            endlessMap.dispose();
+            endlessRenderer.dispose();
         }
     }
 }
