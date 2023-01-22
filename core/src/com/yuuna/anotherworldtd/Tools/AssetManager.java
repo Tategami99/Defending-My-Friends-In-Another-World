@@ -53,7 +53,6 @@ public class AssetManager {
             endlessRenderer = new OrthogonalTiledMapRenderer(endlessMap);
             endlessMapProperties = endlessMap.getProperties();
         }
-
         public static void disposeEndless(){
             backgroundTexture.dispose();
             endlessMap.dispose();
@@ -62,12 +61,32 @@ public class AssetManager {
     }
 
     public static class UserInterfaceAssets{
+        public static int baseButtonWidth;
+        public static int baseButtonHeight;
         public static Texture settingsTexture;
         public static Drawable settingDrawable;
+        public static Texture resumeTexture;
+        public static Drawable resumDrawable;
+        public static Texture recordScoreTexture;
+        public static Drawable recordScoreDrawable;
+        public static Texture mainMenuTexture;
+        public static Drawable mainMenuDrawable;
 
         public static void loadUserInterface(){
-            settingsTexture = new Texture("GameUI/settingsbutton.png");
+            settingsTexture = new Texture("UserInterface/settingsbutton.png");
+            baseButtonWidth = settingsTexture.getWidth();
+            baseButtonHeight = settingsTexture.getHeight();
             settingDrawable = new TextureRegionDrawable(new TextureRegion(settingsTexture));
+            resumeTexture = new Texture("UserInterface/resumebutton.png");
+            resumDrawable = new TextureRegionDrawable(new TextureRegion(resumeTexture));
+            recordScoreTexture = new Texture("UserInterface/recordscorebutton.png");
+            recordScoreDrawable = new TextureRegionDrawable(new TextureRegion(recordScoreTexture));
+            mainMenuTexture = new Texture("UserInterface/mainmenubutton.png");
+            mainMenuDrawable = new TextureRegionDrawable(new TextureRegion(mainMenuTexture));
+        }
+        public static void disposeUserInterface(){
+            settingsTexture.dispose();
+            resumeTexture.dispose();
         }
     }
 }

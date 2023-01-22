@@ -14,10 +14,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.BaseClasses.UserInterface;
 import com.yuuna.anotherworldtd.Tools.AssetManager.EndlessAssets;
+import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
 
 public class Endless extends ScreenAdapter {
 	private TowerDefenseGame game;
 
+	private int worldWidth;
+	private int worldHeight;
 	private Viewport viewport;
 	private OrthographicCamera camera;
 	private Stage stage;
@@ -32,13 +35,14 @@ public class Endless extends ScreenAdapter {
 		EndlessAssets.loadEndless();
 
 		//viewport
-		int worldWidth = EndlessAssets.endlessMapProperties.get("width", Integer.class)*EndlessAssets.endlessMapProperties.get("tilewidth", Integer.class);
-		int worldHeight = EndlessAssets.endlessMapProperties.get("height", Integer.class)*EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
+		worldWidth = EndlessAssets.endlessMapProperties.get("width", Integer.class)*EndlessAssets.endlessMapProperties.get("tilewidth", Integer.class);
+		worldHeight = EndlessAssets.endlessMapProperties.get("height", Integer.class)*EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
 		viewport = new FitViewport(worldWidth, worldHeight);
 
 		//set camera stuff
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, viewport.getWorldWidth(), viewport.getWorldHeight());
+		// camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		//stage stuff
 		stage = new Stage(viewport);
@@ -48,7 +52,7 @@ public class Endless extends ScreenAdapter {
 		Gdx.input.setInputProcessor(stage);
 
 		//user interface stuff
-		new UserInterface(stage, worldWidth, worldHeight);
+		new UserInterface(game, stage, worldWidth, worldHeight, true);
 
 		//batch stuff
 		batch = new SpriteBatch();
@@ -86,6 +90,7 @@ public class Endless extends ScreenAdapter {
 		stage.dispose();
 		batch.dispose();
 		EndlessAssets.disposeEndless();
+		UserInterfaceAssets.disposeUserInterface();
 	}
 
 
