@@ -60,4 +60,14 @@ public class AssetManager {
             endlessRenderer.dispose();
         }
     }
+
+    public static class UserInterfaceAssets{
+        public static Texture settingsTexture;
+        public static Drawable settingDrawable;
+
+        public static void loadUserInterface(){
+            settingsTexture = new Texture("GameUI/settingsbutton.png");
+            settingDrawable = new TextureRegionDrawable(new TextureRegion(settingsTexture));
+        }
+    }
 }

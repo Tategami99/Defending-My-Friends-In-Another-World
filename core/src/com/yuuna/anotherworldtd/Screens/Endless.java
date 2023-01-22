@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
+import com.yuuna.anotherworldtd.BaseClasses.UserInterface;
 import com.yuuna.anotherworldtd.Tools.AssetManager.EndlessAssets;
 
 public class Endless extends ScreenAdapter {
@@ -45,6 +46,9 @@ public class Endless extends ScreenAdapter {
 		mainTable.setFillParent(true);
 		stage.addActor(mainTable);
 		Gdx.input.setInputProcessor(stage);
+
+		//user interface stuff
+		new UserInterface(stage, worldWidth, worldHeight);
 
 		//batch stuff
 		batch = new SpriteBatch();

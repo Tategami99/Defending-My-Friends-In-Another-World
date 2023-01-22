@@ -1,5 +1,7 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
+import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+
 public class Entity {
     private float xPos, yPos, width, height;
     public boolean isAlly = false, dead = false;
@@ -62,8 +64,9 @@ public class Entity {
     //collisions
     public boolean checkOtherEntityCollisions(float otherX, float otherY, float otherWidth, float otherHeight){
         boolean collided = false;
-        collided |= otherX >= xPos && otherX <= xPos + width && ((otherY >= yPos && otherY <= yPos + height) || (otherY + height >= yPos && otherY + height <= yPos + height));
-        collided |= otherX + otherWidth >= xPos && otherX + otherWidth <= xPos + width && ((otherY >= yPos && otherY <= yPos + height) || (otherY + height >= yPos && otherY + height <= yPos + height));
+        collided |= CoolMethGames.inRange(otherX, xPos, xPos + width, true) && ((CoolMethGames.inRange(otherY, yPos, yPos + height, true)) || (CoolMethGames.inRange(otherY + otherHeight, yPos, yPos + height, true)));
+        collided |= CoolMethGames.inRange(otherX + otherWidth, xPos, xPos + width, true) && ((CoolMethGames.inRange(otherY, yPos, yPos + height, true)) || (CoolMethGames.inRange(otherY + otherHeight, yPos, yPos + height, true)));
+
         return collided;
     }
 }
