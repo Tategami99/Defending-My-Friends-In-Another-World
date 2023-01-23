@@ -4,7 +4,6 @@ import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 
 public class Entity {
     private float xPos, yPos, width, height;
-    public boolean isAlly = false, dead = false;
     public int maxHealth, originalAttack, originalSpeed, originalDefense;
     public int health, attack, speed, defense;
 

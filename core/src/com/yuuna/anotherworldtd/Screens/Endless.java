@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,12 +14,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.BaseClasses.UserInterface;
+import com.yuuna.anotherworldtd.Tools.EntityManager;
 import com.yuuna.anotherworldtd.Tools.AssetManager.EndlessAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
+import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
 
 public class Endless extends ScreenAdapter {
 	private TowerDefenseGame game;
 
+	//game variables
 	private int worldWidth;
 	private int worldHeight;
 	private Viewport viewport;
@@ -26,6 +30,9 @@ public class Endless extends ScreenAdapter {
 	private Stage stage;
 	private SpriteBatch batch;
 	private Table mainTable;
+	
+	//managers
+	private EntityManager entityManager;
 
 	public Endless(TowerDefenseGame game){
 		//set game
@@ -59,6 +66,9 @@ public class Endless extends ScreenAdapter {
 
 		//tilemap stuff
 		EndlessAssets.endlessRenderer.setView(camera);
+
+		//manager stuff
+		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), game, stage);
 	}
 
 	@Override
@@ -70,14 +80,14 @@ public class Endless extends ScreenAdapter {
 		EndlessAssets.endlessRenderer.getBatch().setProjectionMatrix(camera.combined);
 		batch.setProjectionMatrix(camera.combined);
 
-		renderStuff();
+		renderStuff(delta);
 
 		stage.draw();
 	}
 
 	@Override
 	public void show() {
-
+		entityManager.createAlly(AllySelection.mageAlly, 4.5f, 9.5f);
 	}
 
 	@Override
@@ -95,14 +105,14 @@ public class Endless extends ScreenAdapter {
 
 
 	//my methods
-	private void renderStuff(){
+	private void renderStuff(float delta){
 		batch.begin();
 		//render background
         batch.draw(EndlessAssets.backgroundTextureRegion, 0, 0, camera.viewportWidth, camera.viewportHeight);
 		batch.end();
 		EndlessAssets.endlessRenderer.render();
 		batch.begin();
-		//render other stuff
+			entityManager.render(batch, delta);
 		batch.end();
 	}
 

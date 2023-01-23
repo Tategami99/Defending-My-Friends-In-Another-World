@@ -20,6 +20,7 @@ public class UserInterface {
     //tables
     private Table pauseMenu;
     private Table topTable;
+    private Table characterSelectorEndlessTable;
 
     public UserInterface(TowerDefenseGame game, Stage stage, int worldWidth, int worldHeight, boolean endless){
         System.out.println("new ui");
@@ -40,10 +41,19 @@ public class UserInterface {
         topTable = new Table();
         topTable.setFillParent(true);
         stage.addActor(topTable);
-        float x = CoolMethGames.monitorToWorldCoordinates(-worldWidth + UserInterfaceAssets.baseButtonWidth*1.5f, worldWidth, worldHeight, true);
-        float y = CoolMethGames.monitorToWorldCoordinates(worldHeight - UserInterfaceAssets.baseButtonHeight*2, worldWidth, worldHeight, false);
+        float topX = CoolMethGames.monitorToWorldCoordinates(-worldWidth + UserInterfaceAssets.baseButtonWidth*1.5f, worldWidth, worldHeight, true);
+        float topY = CoolMethGames.monitorToWorldCoordinates(worldHeight - UserInterfaceAssets.baseButtonHeight*2, worldWidth, worldHeight, false);
         // System.out.println(x);
-        topTable.setPosition(x, y);
+        //sets the position of the center of the table
+        topTable.setPosition(topX, topY);
+
+        //character selector stuff
+        characterSelectorEndlessTable = new Table();
+        characterSelectorEndlessTable.setFillParent(true);
+        stage.addActor(characterSelectorEndlessTable);
+        float csX = CoolMethGames.monitorToWorldCoordinates(-worldWidth + UserInterfaceAssets.baseButtonWidth*1.5f, worldWidth, worldHeight, true);;
+        float csY = CoolMethGames.monitorToWorldCoordinates(-worldHeight + UserInterfaceAssets.baseButtonHeight*1.5f, worldWidth, worldHeight, false);
+        characterSelectorEndlessTable.setPosition(csX, csY);
 
         createPauseMenu();
         createTopTable();
@@ -95,7 +105,12 @@ public class UserInterface {
     }
 
     private void createCharacterPlacerEndless(){
-
+        createButton(UserInterfaceAssets.mageAllyButtonDrawable, characterSelectorEndlessTable, false).addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("mage selected");
+            }
+        });
     }
 
     private void createCharacterPlacer(){
