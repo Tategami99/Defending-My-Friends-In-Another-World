@@ -1,5 +1,8 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.ai.GdxLogger;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -11,12 +14,13 @@ import com.yuuna.anotherworldtd.Screens.Isekai;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
 
-public class UserInterface {
+public class UserInterface implements InputProcessor{
     private TowerDefenseGame game;
     private Stage stage;
     private int worldWidth, worldHeight;
     private int tileWidth, tileHeight;
     private boolean endless;
+    private UserInterface  ui = this;
 
     //tables
     private Table pauseMenu;
@@ -61,10 +65,10 @@ public class UserInterface {
         createPauseMenu();
         createTopTable();
         if(endless){
-            createCharacterPlacerEndless();
+            createCharacterSelectionEndless();
         }
         else{
-            createCharacterPlacer();
+            createCharacterSelection();
         }
     }
 
@@ -96,6 +100,7 @@ public class UserInterface {
         createButton(UserInterfaceAssets.settingDrawable, topTable, false).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println("clicked");
                 TowerDefenseGame.paused = !TowerDefenseGame.paused;
                 if(TowerDefenseGame.paused){
                     stage.addActor(pauseMenu);
@@ -107,16 +112,17 @@ public class UserInterface {
         });
     }
 
-    private void createCharacterPlacerEndless(){
+    private void createCharacterSelectionEndless(){
         createButton(UserInterfaceAssets.mageAllyButtonDrawable, characterSelectorEndlessTable, false).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("mage selected");
+                Gdx.input.setInputProcessor(ui);
             }
         });
     }
 
-    private void createCharacterPlacer(){
+    private void createCharacterSelection(){
 
     }
 
@@ -129,4 +135,55 @@ public class UserInterface {
         }
 		return button;
 	}
+
+    @Override
+    public boolean keyDown(int keycode) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        float worldX = CoolMethGames.screenToWorldCoordinates(screenX, true);
+        float worldY = CoolMethGames.screenToWorldCoordinates(screenY, false);
+        System.out.println("sx " + screenX + " sy " + screenY);
+        System.out.println("x " + worldX + " y " + worldY);
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

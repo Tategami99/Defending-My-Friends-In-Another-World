@@ -109,7 +109,7 @@ public class AssetManager {
 
             public static void mageAllyLoad(){
                 mageAllyIdleTexture = new Texture("Allies/mageallyidle.png");
-                mageAllyIdleAnimation = createAnimation(mageAllyIdleTexture, 4, 1, 0.01f);
+                mageAllyIdleAnimation = createAnimation(mageAllyIdleTexture, 4, 1, 0.1f);
             }
             public static void mageAllyDispose(){
                 mageAllyIdleTexture.dispose();

@@ -93,7 +93,7 @@ public class Endless extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		entityManager.createAlly(AllySelection.mageAlly, 4.5f, 9.5f);
+		entityManager.createAlly(AllySelection.mageAlly, 4, 9);
 	}
 
 	@Override

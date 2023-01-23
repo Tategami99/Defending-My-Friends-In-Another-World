@@ -14,10 +14,11 @@ public class EntityManager {
     private Stage stage;
 
     //allies
-    private MageAlly mageAlly;
-    public enum AllySelection{
+    public MageAlly mageAlly;
+    public static enum AllySelection{
         mageAlly
     }
+    public AllySelection selectedAlly;
 
     public EntityManager(TiledMapTileLayer gameLayer, TowerDefenseGame game, Stage stage){
         //load ally stuff
@@ -30,7 +31,7 @@ public class EntityManager {
     }
 
     public void render(SpriteBatch batch, float deltaTime){
-        if(!MageAlly.resting && !MageAlly.immobile){
+        if(mageAlly != null && !MageAlly.resting && !MageAlly.immobile){
             mageAlly.render(batch, deltaTime);
         }
     }

@@ -49,14 +49,24 @@ public class CoolMethGames {
     //         return world*Gdx.graphics.getHeight()/worldHeight;
     //     }
     // }
-    public static float worldToMonitorCoordinates(float monitor, boolean isX){
+    public static float worldToCameraCoordinates(float world, boolean isX){
         if(isX){
-            float monitorX = monitor - cameraX;
-            return monitorX;
+            float camX = world - cameraX;
+            return camX;
         }
         else{
-            float monitorY = monitor - cameraY;
-            return monitorY;
+            float camY = world - cameraY;
+            return camY;
+        }
+    }
+    public static float screenToWorldCoordinates(float screen, boolean isX){
+        if(isX){
+            float worldX = screen*cameraWidth/Gdx.graphics.getWidth();
+            return worldX;
+        }
+        else{
+            float worldY = cameraHeight - (screen*cameraHeight/Gdx.graphics.getHeight());
+            return worldY;
         }
     }
 }
