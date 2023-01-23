@@ -15,6 +15,7 @@ public class UserInterface {
     private TowerDefenseGame game;
     private Stage stage;
     private int worldWidth, worldHeight;
+    private int tileWidth, tileHeight;
     private boolean endless;
 
     //tables
@@ -22,7 +23,7 @@ public class UserInterface {
     private Table topTable;
     private Table characterSelectorEndlessTable;
 
-    public UserInterface(TowerDefenseGame game, Stage stage, int worldWidth, int worldHeight, boolean endless){
+    public UserInterface(TowerDefenseGame game, Stage stage, int worldWidth, int worldHeight, int tileWidth, int tileHeight, boolean endless){
         System.out.println("new ui");
         UserInterfaceAssets.loadUserInterface();
 
@@ -31,6 +32,8 @@ public class UserInterface {
         this.stage = stage;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
         this.endless = endless;
 
         //pause menu stuff
@@ -41,8 +44,8 @@ public class UserInterface {
         topTable = new Table();
         topTable.setFillParent(true);
         stage.addActor(topTable);
-        float topX = CoolMethGames.monitorToWorldCoordinates(-worldWidth + UserInterfaceAssets.baseButtonWidth*1.5f, worldWidth, worldHeight, true);
-        float topY = CoolMethGames.monitorToWorldCoordinates(worldHeight - UserInterfaceAssets.baseButtonHeight*2, worldWidth, worldHeight, false);
+        float topX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
+        float topY = CoolMethGames.worldToCameraCoordinates(worldHeight - tileHeight, false);
         // System.out.println(x);
         //sets the position of the center of the table
         topTable.setPosition(topX, topY);
@@ -51,8 +54,8 @@ public class UserInterface {
         characterSelectorEndlessTable = new Table();
         characterSelectorEndlessTable.setFillParent(true);
         stage.addActor(characterSelectorEndlessTable);
-        float csX = CoolMethGames.monitorToWorldCoordinates(-worldWidth + UserInterfaceAssets.baseButtonWidth*1.5f, worldWidth, worldHeight, true);;
-        float csY = CoolMethGames.monitorToWorldCoordinates(-worldHeight + UserInterfaceAssets.baseButtonHeight*1.5f, worldWidth, worldHeight, false);
+        float csX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
+        float csY = CoolMethGames.worldToCameraCoordinates(0 + tileHeight, false);
         characterSelectorEndlessTable.setPosition(csX, csY);
 
         createPauseMenu();

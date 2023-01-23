@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.BaseClasses.UserInterface;
+import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.EntityManager;
 import com.yuuna.anotherworldtd.Tools.AssetManager.EndlessAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
@@ -42,14 +43,19 @@ public class Endless extends ScreenAdapter {
 		EndlessAssets.loadEndless();
 
 		//viewport
-		worldWidth = EndlessAssets.endlessMapProperties.get("width", Integer.class)*EndlessAssets.endlessMapProperties.get("tilewidth", Integer.class);
-		worldHeight = EndlessAssets.endlessMapProperties.get("height", Integer.class)*EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
+		int numOTilesHorizontal = EndlessAssets.endlessMapProperties.get("width", Integer.class);
+		int numOTilesVertical = EndlessAssets.endlessMapProperties.get("height", Integer.class);
+		int tileWidth = EndlessAssets.endlessMapProperties.get("tilewidth", Integer.class);
+		int tileHeight = EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
+		worldWidth = numOTilesHorizontal*tileWidth;
+		worldHeight = numOTilesVertical*tileHeight;
 		viewport = new FitViewport(worldWidth, worldHeight);
 
 		//set camera stuff
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, viewport.getWorldWidth(), viewport.getWorldHeight());
 		// camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		CoolMethGames.cameraInfo(viewport.getWorldWidth(), viewport.getWorldHeight());
 
 		//stage stuff
 		stage = new Stage(viewport);
@@ -59,7 +65,7 @@ public class Endless extends ScreenAdapter {
 		Gdx.input.setInputProcessor(stage);
 
 		//user interface stuff
-		new UserInterface(game, stage, worldWidth, worldHeight, true);
+		new UserInterface(game, stage, worldWidth, worldHeight, tileWidth, tileHeight, true);
 
 		//batch stuff
 		batch = new SpriteBatch();
