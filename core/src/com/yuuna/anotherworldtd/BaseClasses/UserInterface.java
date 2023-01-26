@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ai.GdxLogger;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,6 +49,9 @@ public class UserInterface implements InputProcessor{
         //top table stuff
         topTable = new Table();
         topTable.setFillParent(true);
+        topTable.setTransform(true);
+        topTable.setWidth(worldWidth);
+        topTable.setHeight(UserInterfaceAssets.baseButtonHeight);
         stage.addActor(topTable);
         float topX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
         float topY = CoolMethGames.worldToCameraCoordinates(worldHeight - tileHeight, false);
@@ -60,7 +65,7 @@ public class UserInterface implements InputProcessor{
         stage.addActor(characterSelectorEndlessTable);
         float csX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
         float csY = CoolMethGames.worldToCameraCoordinates(0 + tileHeight, false);
-        characterSelectorEndlessTable.setPosition(csX, csY);
+        // characterSelectorEndlessTable.setPosition(csX, csY);
 
         createPauseMenu();
         createTopTable();
@@ -73,7 +78,7 @@ public class UserInterface implements InputProcessor{
     }
 
     private void createPauseMenu(){
-        createButton(UserInterfaceAssets.resumDrawable, pauseMenu, true).addListener(new ClickListener(){
+        createButton(UserInterfaceAssets.resumDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 TowerDefenseGame.paused = false;
@@ -81,14 +86,14 @@ public class UserInterface implements InputProcessor{
             }
         });
         if(endless){
-            createButton(UserInterfaceAssets.recordScoreDrawable, pauseMenu, true).addListener(new ClickListener(){
+            createButton(UserInterfaceAssets.recordScoreDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("recorded");
                 }
             });
         }
-        createButton(UserInterfaceAssets.mainMenuDrawable, pauseMenu, true).addListener(new ClickListener(){
+        createButton(UserInterfaceAssets.mainMenuDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new Isekai(game));
@@ -97,7 +102,9 @@ public class UserInterface implements InputProcessor{
     }
 
     private void createTopTable(){
-        createButton(UserInterfaceAssets.settingDrawable, topTable, false).addListener(new ClickListener(){
+        Button settingsButton = createButton(UserInterfaceAssets.settingDrawable, topTable, false, 1);
+        settingsButton.setPosition(64, 0);
+        settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("clicked");
@@ -113,7 +120,9 @@ public class UserInterface implements InputProcessor{
     }
 
     private void createCharacterSelectionEndless(){
-        createButton(UserInterfaceAssets.mageAllyButtonDrawable, characterSelectorEndlessTable, false).addListener(new ClickListener(){
+        Button mageButton = characterButton(UserInterfaceAssets.mageAllyButtonDrawable, characterSelectorEndlessTable, false);
+        mageButton.setPosition(0, 0);
+        mageButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("mage selected");
@@ -126,9 +135,22 @@ public class UserInterface implements InputProcessor{
 
     }
 
-    private ImageButton createButton(Drawable drawable, Table table, boolean newRow){
+    private Button createButton(Drawable drawable, Table table, boolean newRow, float scale){
         System.out.println("button created at " + table.getX() + " and " + table.getY());
-		ImageButton button = new ImageButton(drawable);
+		Button button = new Button(drawable);
+        button.setTransform(true);
+        button.setScale(scale, scale);
+		table.add(button).fill().padBottom(10);
+		if(newRow){
+            table.row();
+        }
+		return button;
+	}
+    private Button characterButton(Drawable drawable, Table table, boolean newRow){
+        System.out.println("c button created at " + table.getX() + " and " + table.getY());
+		Button button = new Button(drawable);
+        button.setTransform(true);
+        button.setScale(0.5f, 0.5f);
 		table.add(button).fill().padBottom(10);
 		if(newRow){
             table.row();

@@ -77,8 +77,8 @@ public class AssetManager {
 
         public static void loadUserInterface(){
             settingsTexture = new Texture("UserInterface/settingsbutton.png");
-            baseButtonWidth = settingsTexture.getWidth();
-            baseButtonHeight = settingsTexture.getHeight();
+            baseButtonWidth = 64;
+            baseButtonHeight = 64;
             settingDrawable = new TextureRegionDrawable(new TextureRegion(settingsTexture));
 
             resumeTexture = new Texture("UserInterface/resumebutton.png");
