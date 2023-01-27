@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.BaseClasses.InputStuff;
@@ -55,7 +56,7 @@ public class Endless extends ScreenAdapter {
 		int tileHeight = EndlessAssets.endlessMapProperties.get("tileheight", Integer.class);
 		worldWidth = numOTilesHorizontal*tileWidth;
 		worldHeight = numOTilesVertical*tileHeight;
-		viewport = new FitViewport(worldWidth, worldHeight);
+		viewport = new StretchViewport(worldWidth, worldHeight);
 
 		//set camera stuff
 		camera = new OrthographicCamera();

@@ -1,22 +1,18 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ai.GdxLogger;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.Screens.Isekai;
-import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.EntityManager;
 import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
+import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
 
 public class UserInterface{
     private TowerDefenseGame game;
@@ -109,6 +105,7 @@ public class UserInterface{
     private void createTopTable(Table table){
         table.setFillParent(true);
         table.align(Align.topLeft);
+        table.setDebug(true);
 
         Button settingsButton = makeButton(UserInterfaceAssets.settingDrawable, 1);
         settingsButton.addListener(new ClickListener(){
@@ -137,7 +134,13 @@ public class UserInterface{
         mageButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("mage selected");
+                Gdx.app.log("Ally", "mage");
+                if(entityManager.selectedAlly == null){
+                    entityManager.selectedAlly = AllySelection.mageAlly;
+                }
+                else{
+                    entityManager.selectedAlly = null;
+                }
             }
         });
 

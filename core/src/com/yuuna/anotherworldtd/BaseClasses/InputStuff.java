@@ -1,5 +1,6 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 
@@ -46,7 +47,7 @@ public class InputStuff implements InputProcessor{
         float worldX = CoolMethGames.screenToWorldCoordinates(screenX, true);
         float worldY = CoolMethGames.screenToWorldCoordinates(screenY, false);
         // System.out.println("sx " + screenX + " sy " + screenY);
-        // System.out.println("x " + worldX + " y " + worldY);
+        Gdx.app.log("X and Y", worldX + " | " + worldY);
         return false;
     }
 
