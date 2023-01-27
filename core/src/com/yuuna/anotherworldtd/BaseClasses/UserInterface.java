@@ -11,14 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.Screens.Isekai;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+import com.yuuna.anotherworldtd.Tools.EntityManager;
 import com.yuuna.anotherworldtd.Tools.AssetManager.UserInterfaceAssets;
 
-public class UserInterface implements InputProcessor{
+public class UserInterface{
     private TowerDefenseGame game;
     private Stage stage;
+    private EntityManager entityManager;
     private int worldWidth, worldHeight;
     private int tileWidth, tileHeight;
     private boolean endless;
@@ -29,13 +32,14 @@ public class UserInterface implements InputProcessor{
     private Table topTable;
     private Table characterSelectorEndlessTable;
 
-    public UserInterface(TowerDefenseGame game, Stage stage, int worldWidth, int worldHeight, int tileWidth, int tileHeight, boolean endless){
+    public UserInterface(TowerDefenseGame game, Stage stage, EntityManager entityManager, int worldWidth, int worldHeight, int tileWidth, int tileHeight, boolean endless){
         System.out.println("new ui");
         UserInterfaceAssets.loadUserInterface();
 
         //variables received from other classes
         this.game = game;
         this.stage = stage;
+        this.entityManager = entityManager;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.tileWidth = tileWidth;
@@ -44,66 +48,69 @@ public class UserInterface implements InputProcessor{
 
         //pause menu stuff
         pauseMenu = new Table();
-        pauseMenu.setFillParent(true);
 
         //top table stuff
         topTable = new Table();
-        topTable.setFillParent(true);
-        topTable.setTransform(true);
-        topTable.setWidth(worldWidth);
-        topTable.setHeight(UserInterfaceAssets.baseButtonHeight);
-        stage.addActor(topTable);
-        float topX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
-        float topY = CoolMethGames.worldToCameraCoordinates(worldHeight - tileHeight, false);
-        // System.out.println(x);
-        //sets the position of the center of the table
-        topTable.setPosition(topX, topY);
 
         //character selector stuff
         characterSelectorEndlessTable = new Table();
-        characterSelectorEndlessTable.setFillParent(true);
-        stage.addActor(characterSelectorEndlessTable);
-        float csX = CoolMethGames.worldToCameraCoordinates(0 + tileWidth, true);
-        float csY = CoolMethGames.worldToCameraCoordinates(0 + tileHeight, false);
-        // characterSelectorEndlessTable.setPosition(csX, csY);
 
-        createPauseMenu();
-        createTopTable();
+        createPauseMenu(pauseMenu);
+        createTopTable(topTable);
         if(endless){
-            createCharacterSelectionEndless();
+            createCharacterSelectionEndless(characterSelectorEndlessTable);
         }
         else{
             createCharacterSelection();
         }
     }
 
-    private void createPauseMenu(){
-        createButton(UserInterfaceAssets.resumDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
+    private void createPauseMenu(Table table){
+        table.setFillParent(true);
+        table.align(Align.center | Align.center);
+
+        Button resumeButton =  textImageButton(UserInterfaceAssets.resumDrawable, 1);
+        resumeButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 TowerDefenseGame.paused = false;
                 pauseMenu.remove();
             }
         });
+
+        Button middleButton;
         if(endless){
-            createButton(UserInterfaceAssets.recordScoreDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
+            middleButton = textImageButton(UserInterfaceAssets.recordScoreDrawable, 1);
+            middleButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("recorded");
                 }
             });
+        }else{
+            middleButton = null;
         }
-        createButton(UserInterfaceAssets.mainMenuDrawable, pauseMenu, true, 1).addListener(new ClickListener(){
+        
+        Button mainMenuButton = textImageButton(UserInterfaceAssets.mainMenuDrawable, 1);
+        mainMenuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new Isekai(game));
             }
         });
+
+        table.add(resumeButton);
+        table.row();
+        table.add(middleButton);
+        table.row();
+        table.add(mainMenuButton);
     }
 
-    private void createTopTable(){
-        Button settingsButton = createButton(UserInterfaceAssets.settingDrawable, topTable, false, 1);
-        settingsButton.setPosition(64, 0);
+    private void createTopTable(Table table){
+        table.setFillParent(true);
+        table.align(Align.topLeft);
+
+        Button settingsButton = makeButton(UserInterfaceAssets.settingDrawable, 1);
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -117,95 +124,42 @@ public class UserInterface implements InputProcessor{
                 }
             }
         });
+
+        table.add(settingsButton);
+        stage.addActor(table);
     }
 
-    private void createCharacterSelectionEndless(){
-        Button mageButton = characterButton(UserInterfaceAssets.mageAllyButtonDrawable, characterSelectorEndlessTable, false);
-        mageButton.setPosition(0, 0);
+    private void createCharacterSelectionEndless(Table table){
+        table.setFillParent(true);
+        table.align(Align.bottomLeft);
+
+        Button mageButton = makeButton(UserInterfaceAssets.mageAllyButtonDrawable, 1);
         mageButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("mage selected");
-                Gdx.input.setInputProcessor(ui);
             }
         });
+
+        table.add(mageButton);
+        stage.addActor(table);
     }
 
     private void createCharacterSelection(){
 
     }
 
-    private Button createButton(Drawable drawable, Table table, boolean newRow, float scale){
-        System.out.println("button created at " + table.getX() + " and " + table.getY());
+    //TODO convert from normal buttons to textbuttons
+    private Button makeButton(Drawable drawable,float scale){
 		Button button = new Button(drawable);
         button.setTransform(true);
-        button.setScale(scale, scale);
-		table.add(button).fill().padBottom(10);
-		if(newRow){
-            table.row();
-        }
+        button.setScale(UserInterfaceAssets.baseButtonWidth/drawable.getMinWidth()*scale, UserInterfaceAssets.baseButtonHeight/drawable.getMinHeight()*scale);
 		return button;
 	}
-    private Button characterButton(Drawable drawable, Table table, boolean newRow){
-        System.out.println("c button created at " + table.getX() + " and " + table.getY());
-		Button button = new Button(drawable);
-        button.setTransform(true);
-        button.setScale(0.5f, 0.5f);
-		table.add(button).fill().padBottom(10);
-		if(newRow){
-            table.row();
-        }
+    private Button textImageButton(Drawable drawable, float scale){
+        Button button = new Button(drawable);
+        button.setWidth(drawable.getMinWidth()*scale);
+        button.setHeight(drawable.getMinHeight()*scale);
 		return button;
-	}
-
-    @Override
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        float worldX = CoolMethGames.screenToWorldCoordinates(screenX, true);
-        float worldY = CoolMethGames.screenToWorldCoordinates(screenY, false);
-        System.out.println("sx " + screenX + " sy " + screenY);
-        System.out.println("x " + worldX + " y " + worldY);
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        // TODO Auto-generated method stub
-        return false;
     }
 }

@@ -1,6 +1,7 @@
 package com.yuuna.anotherworldtd.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
+import com.yuuna.anotherworldtd.BaseClasses.InputStuff;
 import com.yuuna.anotherworldtd.BaseClasses.UserInterface;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.EntityManager;
@@ -31,6 +33,10 @@ public class Endless extends ScreenAdapter {
 	private Stage stage;
 	private SpriteBatch batch;
 	private Table mainTable;
+
+	//ui and input stuff
+	private UserInterface ui;
+	private InputStuff input;
 	
 	//managers
 	private EntityManager entityManager;
@@ -62,19 +68,23 @@ public class Endless extends ScreenAdapter {
 		mainTable = new Table();
 		mainTable.setFillParent(true);
 		stage.addActor(mainTable);
-		Gdx.input.setInputProcessor(stage);
-
-		//user interface stuff
-		new UserInterface(game, stage, worldWidth, worldHeight, tileWidth, tileHeight, true);
-
+		
 		//batch stuff
 		batch = new SpriteBatch();
+
+		//manager stuff
+		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), game, stage);
+
+		//user interface stuff
+		ui = new UserInterface(game, stage, entityManager, worldWidth, worldHeight, tileWidth, tileHeight, true);
+		input = new InputStuff();
 
 		//tilemap stuff
 		EndlessAssets.endlessRenderer.setView(camera);
 
-		//manager stuff
-		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), game, stage);
+		//input
+		InputMultiplexer im = new InputMultiplexer(stage, input);
+		Gdx.input.setInputProcessor(im);
 	}
 
 	@Override
@@ -88,6 +98,7 @@ public class Endless extends ScreenAdapter {
 
 		renderStuff(delta);
 
+		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
 
