@@ -64,23 +64,31 @@ public class AssetManager {
     public static class UserInterfaceAssets{
         public static int baseButtonWidth;
         public static int baseButtonHeight;
+
         public static Texture settingsTexture;
         public static Drawable settingDrawable;
+
         public static Texture resumeTexture;
         public static Drawable resumDrawable;
         public static Texture recordScoreTexture;
         public static Drawable recordScoreDrawable;
         public static Texture mainMenuTexture;
         public static Drawable mainMenuDrawable;
+
         public static Texture mageAllyButtonTexture;
         public static Drawable mageAllyButtonDrawable;
+        public static Texture katanaAllyButtonTexture;
+        public static Drawable katanaAllyButtonDrawable;
 
         public static void loadUserInterface(){
-            settingsTexture = new Texture("UserInterface/settingsbutton.png");
             baseButtonWidth = 64;
             baseButtonHeight = 64;
+
+            //top menu
+            settingsTexture = new Texture("UserInterface/settingsbutton.png");
             settingDrawable = new TextureRegionDrawable(new TextureRegion(settingsTexture));
 
+            //pause menu
             resumeTexture = new Texture("UserInterface/resumebutton.png");
             resumDrawable = new TextureRegionDrawable(new TextureRegion(resumeTexture));
             recordScoreTexture = new Texture("UserInterface/recordscorebutton.png");
@@ -88,8 +96,12 @@ public class AssetManager {
             mainMenuTexture = new Texture("UserInterface/mainmenubutton.png");
             mainMenuDrawable = new TextureRegionDrawable(new TextureRegion(mainMenuTexture));
 
+            //ally buttons
             mageAllyButtonTexture = new Texture("UserInterface/mageallybutton.png");
             mageAllyButtonDrawable = new TextureRegionDrawable(new TextureRegion(mageAllyButtonTexture));
+            katanaAllyButtonTexture = new Texture("UserInterface/katanaallybutton.png");
+            katanaAllyButtonDrawable = new TextureRegionDrawable(new TextureRegion(katanaAllyButtonTexture));
+
         }
         public static void disposeUserInterface(){
             settingsTexture.dispose();
@@ -113,6 +125,32 @@ public class AssetManager {
             }
             public static void mageAllyDispose(){
                 mageAllyIdleTexture.dispose();
+            }
+
+            public static Animation<TextureRegion> createAnimation( Texture texture, Integer FRAME_COLS, Integer FRAME_ROWS, Float frameInterval){
+                TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth()/FRAME_COLS, texture.getHeight()/FRAME_ROWS);
+                TextureRegion[] frames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+                int index = 0;
+                for (int i = 0; i < FRAME_ROWS; i++){
+                    for (int j = 0; j < FRAME_COLS; j++){
+                        frames[index++] = tmp[i][j];
+                    }
+                }
+        
+                Animation<TextureRegion> animation = new Animation<TextureRegion>(frameInterval, frames);
+                return animation;
+            }
+        }
+        public static class KatanaAllyAssets{
+            public static Texture katanaAllyIdleTexture;
+            public static Animation<TextureRegion> katanaAllyIdleAnimation;
+
+            public static void katanaAllyLoad(){
+                katanaAllyIdleTexture = new Texture("Allies/katanaallyidle.png");
+                katanaAllyIdleAnimation = createAnimation(katanaAllyIdleTexture, 4, 1, 0.1f);
+            }
+            public static void katanaAllyDispose(){
+                katanaAllyIdleTexture.dispose();
             }
 
             public static Animation<TextureRegion> createAnimation( Texture texture, Integer FRAME_COLS, Integer FRAME_ROWS, Float frameInterval){

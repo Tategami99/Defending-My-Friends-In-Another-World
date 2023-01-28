@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 
 public class InputStuff implements InputProcessor{
+    public static float mouseXworld, mouseYworld;
+    public static int columnHovering, rowHovering;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -44,10 +46,13 @@ public class InputStuff implements InputProcessor{
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        float worldX = CoolMethGames.screenToWorldCoordinates(screenX, true);
-        float worldY = CoolMethGames.screenToWorldCoordinates(screenY, false);
+        mouseXworld = CoolMethGames.screenToWorldCoordinates(screenX, true);
+        mouseYworld = CoolMethGames.screenToWorldCoordinates(screenY, false);
         // System.out.println("sx " + screenX + " sy " + screenY);
-        Gdx.app.log("X and Y", worldX + " | " + worldY);
+        Gdx.app.log("X and Y", mouseXworld + " | " + mouseYworld);
+        columnHovering = (int) (mouseXworld/32);
+        rowHovering = (int) (mouseYworld/32);
+        Gdx.app.log("Column and Row", String.valueOf(columnHovering) + " | " + String.valueOf(rowHovering));
         return false;
     }
 

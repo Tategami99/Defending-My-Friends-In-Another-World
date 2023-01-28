@@ -95,11 +95,11 @@ public class UserInterface{
             }
         });
 
-        table.add(resumeButton);
+        table.add(resumeButton).padBottom(UserInterfaceAssets.baseButtonHeight/8);
         table.row();
-        table.add(middleButton);
+        table.add(middleButton).padBottom(UserInterfaceAssets.baseButtonHeight/8);
         table.row();
-        table.add(mainMenuButton);
+        table.add(mainMenuButton).padBottom(UserInterfaceAssets.baseButtonHeight/8);
     }
 
     private void createTopTable(Table table){
@@ -129,22 +129,41 @@ public class UserInterface{
     private void createCharacterSelectionEndless(Table table){
         table.setFillParent(true);
         table.align(Align.bottomLeft);
+        table.setDebug(true);
 
         Button mageButton = makeButton(UserInterfaceAssets.mageAllyButtonDrawable, 1);
         mageButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Ally", "mage");
-                if(entityManager.selectedAlly == null){
+                if(entityManager.selectedAlly != AllySelection.mageAlly){
                     entityManager.selectedAlly = AllySelection.mageAlly;
+                    Gdx.app.log("Ally", "mage");
                 }
                 else{
                     entityManager.selectedAlly = null;
+                    Gdx.app.log("Ally", "null");
                 }
             }
         });
 
-        table.add(mageButton);
+        Button katanaButton = makeButton(UserInterfaceAssets.katanaAllyButtonDrawable, 1);
+        katanaButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(entityManager.selectedAlly != AllySelection.katanaAlly){
+                    entityManager.selectedAlly = AllySelection.katanaAlly;
+                    Gdx.app.log("Ally", "katana");
+                }
+                else{
+                    entityManager.selectedAlly = null;
+                    Gdx.app.log("Ally", "null");
+                }
+            }
+        });
+
+        table.setSize(worldWidth, UserInterfaceAssets.baseButtonHeight);
+        table.add(mageButton).size(UserInterfaceAssets.baseButtonWidth, UserInterfaceAssets.baseButtonHeight).padRight(UserInterfaceAssets.baseButtonWidth/8);
+        table.add(katanaButton).size(UserInterfaceAssets.baseButtonWidth, UserInterfaceAssets.baseButtonHeight).padRight(UserInterfaceAssets.baseButtonWidth/8);
         stage.addActor(table);
     }
 
@@ -156,7 +175,7 @@ public class UserInterface{
     private Button makeButton(Drawable drawable,float scale){
 		Button button = new Button(drawable);
         button.setTransform(true);
-        button.setScale(UserInterfaceAssets.baseButtonWidth/drawable.getMinWidth()*scale, UserInterfaceAssets.baseButtonHeight/drawable.getMinHeight()*scale);
+        // button.setScale(UserInterfaceAssets.baseButtonWidth/drawable.getMinWidth()*scale, UserInterfaceAssets.baseButtonHeight/drawable.getMinHeight()*scale);
 		return button;
 	}
     private Button textImageButton(Drawable drawable, float scale){

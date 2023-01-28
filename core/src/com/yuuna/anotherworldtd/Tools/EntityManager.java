@@ -16,7 +16,8 @@ public class EntityManager {
     //allies
     public MageAlly mageAlly;
     public static enum AllySelection{
-        mageAlly
+        mageAlly,
+        katanaAlly
     }
     public AllySelection selectedAlly;
 
