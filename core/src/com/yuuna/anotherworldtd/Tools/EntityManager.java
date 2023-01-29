@@ -78,22 +78,23 @@ public class EntityManager {
         }
         Gdx.app.log("Created", allyString);
     }
-    public void destroyAlly(float xPos, float yPos){
+    public void destroyAlly(float xPos, float yPos, boolean onlyResting){
         for (Entity entity : allyList) {
             if(entity.getX() == xPos && entity.getY() == yPos){
                 alliesToRemove.add(entity);
+                updateAllyStatus(entity, true);
             }
         }
         allyList.removeAll(alliesToRemove);
     }
-    // public AllySelection getAlly(Entity entity){
-    //     switch (entity.typeOfAlly) {
-    //         case mageAlly:
-                
-    //             break;
-        
-    //         default:
-    //             break;
-    //     }
-    // }
+    private void updateAllyStatus(Entity entity, boolean onlyResting){
+        switch (entity.typeOfAlly) {
+            case mageAlly:
+                MageAlly.resting = onlyResting;
+                MageAlly.immobile = !onlyResting;
+                break;
+            default:
+                break;
+        }
+    }
 }
