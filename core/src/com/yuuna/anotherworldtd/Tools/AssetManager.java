@@ -80,6 +80,9 @@ public class AssetManager {
         public static Texture katanaAllyButtonTexture;
         public static Drawable katanaAllyButtonDrawable;
 
+        public static Texture restButtonTexture;
+        public static Drawable restButtonDrawable;
+
         public static void loadUserInterface(){
             baseButtonWidth = 64;
             baseButtonHeight = 64;
@@ -101,7 +104,10 @@ public class AssetManager {
             mageAllyButtonDrawable = new TextureRegionDrawable(new TextureRegion(mageAllyButtonTexture));
             katanaAllyButtonTexture = new Texture("UserInterface/katanaallybutton.png");
             katanaAllyButtonDrawable = new TextureRegionDrawable(new TextureRegion(katanaAllyButtonTexture));
-
+            
+            //other game  buttons
+            restButtonTexture = new Texture("UserInterface/restbutton.png");
+            restButtonDrawable = new TextureRegionDrawable(new TextureRegion(restButtonTexture));
         }
         public static void disposeUserInterface(){
             settingsTexture.dispose();

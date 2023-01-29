@@ -29,6 +29,7 @@ public class UserInterface{
     private Table pauseMenu;
     private Table topTable;
     private Table characterSelectorEndlessTable;
+    private Table otherTable;
 
     public UserInterface(TowerDefenseGame game, Stage stage, EntityManager entityManager, MapProperties mapProperties, boolean endless){
         System.out.println("new ui");
@@ -55,6 +56,9 @@ public class UserInterface{
         //character selector stuff
         characterSelectorEndlessTable = new Table();
 
+        //other table stuff
+        otherTable = new Table();
+
         createPauseMenu(pauseMenu);
         createTopTable(topTable);
         if(endless){
@@ -63,13 +67,14 @@ public class UserInterface{
         else{
             createCharacterSelection();
         }
+        createOtherTable(otherTable);
     }
 
     private void createPauseMenu(Table table){
         table.setFillParent(true);
         table.align(Align.center | Align.center);
 
-        Button resumeButton =  textImageButton(UserInterfaceAssets.resumDrawable, 1);
+        Button resumeButton =  non64by64Button(UserInterfaceAssets.resumDrawable, 1);
         resumeButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -80,7 +85,7 @@ public class UserInterface{
 
         Button middleButton;
         if(endless){
-            middleButton = textImageButton(UserInterfaceAssets.recordScoreDrawable, 1);
+            middleButton = non64by64Button(UserInterfaceAssets.recordScoreDrawable, 1);
             middleButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -91,7 +96,7 @@ public class UserInterface{
             middleButton = null;
         }
         
-        Button mainMenuButton = textImageButton(UserInterfaceAssets.mainMenuDrawable, 1);
+        Button mainMenuButton = non64by64Button(UserInterfaceAssets.mainMenuDrawable, 1);
         mainMenuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -174,6 +179,24 @@ public class UserInterface{
     private void createCharacterSelection(){
 
     }
+    
+    private void createOtherTable(Table table){
+        table.setFillParent(true);
+        table.align(Align.right | Align.center);
+        table.setDebug(true);
+
+        Button restButton = makeButton(UserInterfaceAssets.restButtonDrawable, 1);
+        restButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                
+            }
+        });
+
+        table.setSize(UserInterfaceAssets.baseButtonWidth, worldHeight);
+        table.add(restButton).size(UserInterfaceAssets.baseButtonWidth, UserInterfaceAssets.baseButtonHeight);
+        stage.addActor(table);
+    }
 
     //TODO convert from normal buttons to textbuttons
     private Button makeButton(Drawable drawable,float scale){
@@ -182,7 +205,7 @@ public class UserInterface{
         // button.setScale(UserInterfaceAssets.baseButtonWidth/drawable.getMinWidth()*scale, UserInterfaceAssets.baseButtonHeight/drawable.getMinHeight()*scale);
 		return button;
 	}
-    private Button textImageButton(Drawable drawable, float scale){
+    private Button non64by64Button(Drawable drawable, float scale){
         Button button = new Button(drawable);
         button.setWidth(drawable.getMinWidth()*scale);
         button.setHeight(drawable.getMinHeight()*scale);
