@@ -2,6 +2,7 @@ package com.yuuna.anotherworldtd.BaseClasses;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets;
 import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -104,6 +105,6 @@ public class Entity {
     //other methods
     public void render(SpriteBatch batch, float deltaTime){
         elapsedTime += deltaTime;
-        batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
+        batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
     }
 }

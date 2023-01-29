@@ -8,7 +8,9 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
-import com.yuuna.anotherworldtd.Allies.MageAlly;
+import com.yuuna.anotherworldtd.Entities.Allies.KatanaAlly;
+import com.yuuna.anotherworldtd.Entities.Allies.MageAlly;
+import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.KatanaAllyAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
 import com.yuuna.anotherworldtd.BaseClasses.Entity;
 
@@ -35,6 +37,7 @@ public class EntityManager {
     public EntityManager(TiledMapTileLayer gameLayer, MapProperties mapProperties, TowerDefenseGame game, Stage stage){
         //load ally stuff
         MageAllyAssets.mageAllyLoad();
+        KatanaAllyAssets.katanaAllyLoad();
 
         //variables received from game
         this.gameLayer = gameLayer;
@@ -73,6 +76,13 @@ public class EntityManager {
                 }
                 selectedAlly = null;
                 break;
+            case katanaAlly:
+                if(KatanaAlly.resting && !KatanaAlly.immobile){
+                    allyList.add(new KatanaAlly(xPos, yPos, tileWidth, tileHeight));
+                    KatanaAlly.resting = false;
+                    allyString = "katana";
+                }
+                break;
             default:
                 break;
         }
@@ -93,8 +103,17 @@ public class EntityManager {
                 MageAlly.resting = onlyResting;
                 MageAlly.immobile = !onlyResting;
                 break;
+            case katanaAlly:
+                KatanaAlly.resting = onlyResting;
+                KatanaAlly.immobile = !onlyResting;
+                break;
             default:
                 break;
         }
+    }
+
+    public void dispose(){
+        MageAllyAssets.mageAllyDispose();
+        KatanaAllyAssets.katanaAllyDispose();
     }
 }

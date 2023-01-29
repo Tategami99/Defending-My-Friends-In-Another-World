@@ -121,6 +121,9 @@ public class AssetManager {
     }
 
     public static class AllyAssets{
+        public static int baseAllyWidth = 64;
+        public static int baseAllyHeight = 64;
+
         public static class MageAllyAssets{
             public static Texture mageAllyIdleTexture;
             public static Animation<TextureRegion> mageAllyIdleAnimation;

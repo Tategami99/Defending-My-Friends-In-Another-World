@@ -118,6 +118,7 @@ public class Endless extends ScreenAdapter {
 		batch.dispose();
 		EndlessAssets.disposeEndless();
 		UserInterfaceAssets.disposeUserInterface();
+		entityManager.dispose();
 	}
 
 
