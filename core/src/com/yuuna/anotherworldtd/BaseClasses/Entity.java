@@ -4,17 +4,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets;
 import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Timer;
 
 public class Entity {
     private float xPos, yPos, width, height;
+    private int interval;
+    private boolean attacking = false;
     public int maxHealth, originalAttack, originalSpeed, originalDefense;
     public int health, attack, speed, defense;
     public int currentColumn, currentRow;
     public float elapsedTime = 0;
-    public Animation<TextureRegion> idleAnimation;
+    private Animation<TextureRegion> idleAnimation, attackAnimation;
     public AllySelection typeOfAlly;
+
+    private Timer timer = new Timer();
+    private boolean timerCalled;
 
     //initialize methods
     public void initializePosition(int column, int row, float x, float y){
@@ -23,10 +30,12 @@ public class Entity {
         xPos = x;
         yPos = y;
     }
-    public void initializeRenderingInfo(float spriteWidth, float spriteHeight, Animation<TextureRegion> animationIdle){
+    public void initializeRenderingInfo(float spriteWidth, float spriteHeight, Animation<TextureRegion> animationIdle, Animation<TextureRegion> animationAttack, int attackInterval){
         width = spriteWidth;
         height = spriteHeight;
         idleAnimation = animationIdle;
+        attackAnimation = animationAttack;
+        interval = attackInterval;
     }
     public void intializeStats(int entityHealth, int entityAttack, int entitySpeed, int entityDefense){
         maxHealth = entityHealth;
@@ -58,6 +67,9 @@ public class Entity {
     public float getHeight(){
         return height;
     }
+    public int getAttackInterval(){
+        return interval;
+    }
 
     //set methods
     public void setColumn(int column){
@@ -77,6 +89,9 @@ public class Entity {
     }
     public void setHeight(float h){
         height = h;
+    }
+    public void setAttackInterval(int attackInterval){
+        interval = attackInterval;
     }
 
     //stat altering methods
@@ -105,6 +120,57 @@ public class Entity {
     //other methods
     public void render(SpriteBatch batch, float deltaTime){
         elapsedTime += deltaTime;
-        batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
+        if(!attacking){
+            timer.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    attacking = true;
+                    timerCalled = false;
+                }
+            }, interval);
+            batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
+        }
+        else{
+            timer.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    attacking = false;
+                    timerCalled = false;
+                }
+            }, interval);
+            batch.draw(attackAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
+        }
     }
+
+
+
+
+    //might need it later or not
+    // if(!attacking && !timerCalled){
+        //     timerCalled = true;
+        //     timer.scheduleTask(new Timer.Task() {
+        //         @Override
+        //         public void run() {
+        //             attacking = true;
+        //             timerCalled = false;
+        //             Gdx.app.log("Timer", "called");
+        //         }
+        //     }, interval);
+        // }
+        // else if (attacking && !timerCalled){
+        //     timerCalled = true;
+        //     timer.scheduleTask(new Timer.Task() {
+        //         @Override
+        //         public void run() {
+        //             attacking = false;
+        //             timerCalled = false;
+        //         }
+        //     }, interval);
+        // }
+        // else if(!attacking){
+        //     batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
+        // }
+        // else if(attacking){
+        //     batch.draw(attackAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
+        // }
 }

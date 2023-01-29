@@ -127,13 +127,18 @@ public class AssetManager {
         public static class MageAllyAssets{
             public static Texture mageAllyIdleTexture;
             public static Animation<TextureRegion> mageAllyIdleAnimation;
+            public static Texture mageAllyAttackTexture;
+            public static Animation<TextureRegion> mageAllyAttackAnimation;
 
             public static void mageAllyLoad(){
                 mageAllyIdleTexture = new Texture("Allies/mageallyidle.png");
                 mageAllyIdleAnimation = createAnimation(mageAllyIdleTexture, 4, 1, 0.1f);
+                mageAllyAttackTexture = new Texture("Allies/mageallyattack.png");
+                mageAllyAttackAnimation = createAnimation(mageAllyAttackTexture, 4, 1, 0.1f);
             }
             public static void mageAllyDispose(){
                 mageAllyIdleTexture.dispose();
+                mageAllyAttackTexture.dispose();
             }
 
             public static Animation<TextureRegion> createAnimation( Texture texture, Integer FRAME_COLS, Integer FRAME_ROWS, Float frameInterval){
@@ -153,10 +158,14 @@ public class AssetManager {
         public static class KatanaAllyAssets{
             public static Texture katanaAllyIdleTexture;
             public static Animation<TextureRegion> katanaAllyIdleAnimation;
+            public static Texture katanaAllyAttackTexture;
+            public static Animation<TextureRegion> katanaAllyAttackAnimation;
 
             public static void katanaAllyLoad(){
                 katanaAllyIdleTexture = new Texture("Allies/katanaallyidle.png");
                 katanaAllyIdleAnimation = createAnimation(katanaAllyIdleTexture, 4, 1, 0.1f);
+                katanaAllyAttackTexture = new Texture("Allies/katanaallyattack.png");
+                katanaAllyAttackAnimation = createAnimation(katanaAllyAttackTexture, 4, 1, 0.1f);
             }
             public static void katanaAllyDispose(){
                 katanaAllyIdleTexture.dispose();

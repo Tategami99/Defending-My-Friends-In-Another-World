@@ -23,7 +23,9 @@ public class Allies {
             initializeRenderingInfo(
                 MageAllyAssets.mageAllyIdleTexture.getWidth()/4, 
                 MageAllyAssets.mageAllyIdleTexture.getHeight()/1, 
-                MageAllyAssets.mageAllyIdleAnimation
+                MageAllyAssets.mageAllyIdleAnimation,
+                MageAllyAssets.mageAllyAttackAnimation,
+                2
             );
         }
 
@@ -49,7 +51,9 @@ public class Allies {
             initializeRenderingInfo(
                 KatanaAllyAssets.katanaAllyIdleTexture.getWidth()/4, 
                 KatanaAllyAssets.katanaAllyIdleTexture.getHeight()/1, 
-                KatanaAllyAssets.katanaAllyIdleAnimation
+                KatanaAllyAssets.katanaAllyIdleAnimation,
+                KatanaAllyAssets.katanaAllyAttackAnimation,
+                2
             );
         }
     }
