@@ -1,23 +1,32 @@
 package com.yuuna.anotherworldtd.Allies;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.yuuna.anotherworldtd.BaseClasses.Entity;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
+import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
 
 public class MageAlly extends Entity{
-    private float elapsedTime = 0;
     public static boolean resting = true, immobile = false;
+    public static AllySelection allyType = AllySelection.mageAlly;
 
-    public MageAlly(float xPos, float yPos){
-        setX(xPos);
-        setY(yPos);
+    public MageAlly(float xPos, float yPos, int tileWidth, int tileHeight){
+        typeOfAlly = allyType;
 
-        setWidth(MageAllyAssets.mageAllyIdleTexture.getWidth()/4);
-        setHeight(MageAllyAssets.mageAllyIdleTexture.getHeight()/1);
+        initializePosition(
+        (int) xPos/tileWidth, 
+        (int) yPos/tileHeight, 
+        xPos, 
+        yPos
+        );
+
+        initializeRenderingInfo(
+            MageAllyAssets.mageAllyIdleTexture.getWidth()/4, 
+            MageAllyAssets.mageAllyIdleTexture.getHeight()/1, 
+            MageAllyAssets.mageAllyIdleAnimation
+        );
     }
 
-    public void render(SpriteBatch batch, float deltaTime){
-        elapsedTime += deltaTime;
-        batch.draw(MageAllyAssets.mageAllyIdleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
+    public static void resetAllyStatus(){
+        resting = true;
+        immobile = false;
     }
 }

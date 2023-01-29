@@ -3,6 +3,7 @@ package com.yuuna.anotherworldtd.BaseClasses;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.MapProperties;
+import com.yuuna.anotherworldtd.TowerDefenseGame;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
 import com.yuuna.anotherworldtd.Tools.EntityManager;
 
@@ -14,6 +15,7 @@ public class InputStuff implements InputProcessor{
 
     public static float mouseXworld, mouseYworld;
     public static int columnHovering, rowHovering;
+
 
     public InputStuff(EntityManager entityManager, MapProperties mapProperties){
         this.entityManager = entityManager;
@@ -54,8 +56,13 @@ public class InputStuff implements InputProcessor{
         if(CoolMethGames.isEven(rowToPlace)){
             rowToPlace--;
         }
-        if(entityManager.selectedAlly != null && CoolMethGames.inRange(columnToPlace, 4, 25, true) && CoolMethGames.inRange(rowToPlace, 3, 14, true)){
+        boolean inPlaceableArea = CoolMethGames.inRange(columnToPlace, 4, 25, true) && CoolMethGames.inRange(rowToPlace, 3, 14, true);
+        if(!TowerDefenseGame.paused && TowerDefenseGame.placing && entityManager.selectedAlly != null && inPlaceableArea){
             entityManager.createAlly(entityManager.selectedAlly, columnToPlace*tileWidth, rowToPlace*tileHeight);
+        }
+        else if (!TowerDefenseGame.paused && !TowerDefenseGame.placing && inPlaceableArea){
+            entityManager.destroyAlly(columnToPlace*tileWidth, rowToPlace*tileHeight);
+            TowerDefenseGame.placing = true;
         }
         return false;
     }
@@ -77,10 +84,10 @@ public class InputStuff implements InputProcessor{
         mouseXworld = CoolMethGames.screenToWorldCoordinates(screenX, true);
         mouseYworld = CoolMethGames.screenToWorldCoordinates(screenY, false);
         // System.out.println("sx " + screenX + " sy " + screenY);
-        Gdx.app.log("X and Y", mouseXworld + " | " + mouseYworld);
         columnHovering = (int) (mouseXworld/32);
         rowHovering = (int) (mouseYworld/32);
-        Gdx.app.log("Column and Row", String.valueOf(columnHovering) + " | " + String.valueOf(rowHovering));
+        // Gdx.app.log("X and Y", mouseXworld + " | " + mouseYworld);
+        // Gdx.app.log("Column and Row", String.valueOf(columnHovering) + " | " + String.valueOf(rowHovering));
         return false;
     }
 

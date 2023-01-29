@@ -74,7 +74,7 @@ public class Endless extends ScreenAdapter {
 		batch = new SpriteBatch();
 
 		//manager stuff
-		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), game, stage);
+		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), EndlessAssets.endlessMapProperties, game, stage);
 
 		//user interface stuff
 		ui = new UserInterface(game, stage, entityManager, EndlessAssets.endlessMapProperties, true);

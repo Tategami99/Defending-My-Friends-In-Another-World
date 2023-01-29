@@ -6,6 +6,7 @@ import com.yuuna.anotherworldtd.Screens.Isekai;
 public class TowerDefenseGame extends Game{
     //game state variables
     public static boolean paused = false;
+    public static boolean placing = true;
     
     @Override
     public void create() {

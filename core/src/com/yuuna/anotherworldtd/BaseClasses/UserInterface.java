@@ -189,7 +189,9 @@ public class UserInterface{
         restButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                
+                TowerDefenseGame.placing = !TowerDefenseGame.placing;
+                entityManager.selectedAlly = null;
+                Gdx.app.log("Placing", Boolean.toString(TowerDefenseGame.placing));
             }
         });
 

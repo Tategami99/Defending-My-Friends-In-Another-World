@@ -1,13 +1,33 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Entity {
     private float xPos, yPos, width, height;
     public int maxHealth, originalAttack, originalSpeed, originalDefense;
     public int health, attack, speed, defense;
+    public int currentColumn, currentRow;
+    public float elapsedTime = 0;
+    public Animation<TextureRegion> idleAnimation;
+    public AllySelection typeOfAlly;
 
-    public void initialize(int entityHealth, int entityAttack, int entitySpeed, int entityDefense){
+    //initialize methods
+    public void initializePosition(int column, int row, float x, float y){
+        currentColumn = column;
+        currentRow = row;
+        xPos = x;
+        yPos = y;
+    }
+    public void initializeRenderingInfo(float spriteWidth, float spriteHeight, Animation<TextureRegion> animationIdle){
+        width = spriteWidth;
+        height = spriteHeight;
+        idleAnimation = animationIdle;
+    }
+    public void intializeStats(int entityHealth, int entityAttack, int entitySpeed, int entityDefense){
         maxHealth = entityHealth;
         health = maxHealth;
         originalAttack = entityAttack;
@@ -19,6 +39,12 @@ public class Entity {
     }
 
     //return methods
+    public int getColumn(){
+        return currentColumn;
+    }
+    public int getRow(){
+        return currentRow;
+    }
     public float getX(){
         return xPos;
     }
@@ -33,6 +59,12 @@ public class Entity {
     }
 
     //set methods
+    public void setColumn(int column){
+        currentColumn = column;
+    }
+    public void setRow(int row){
+        currentRow = row;
+    }
     public void setX(float x){
         xPos = x;
     }
@@ -67,5 +99,11 @@ public class Entity {
         collided |= CoolMethGames.inRange(otherX + otherWidth, xPos, xPos + width, true) && ((CoolMethGames.inRange(otherY, yPos, yPos + height, true)) || (CoolMethGames.inRange(otherY + otherHeight, yPos, yPos + height, true)));
 
         return collided;
+    }
+
+    //other methods
+    public void render(SpriteBatch batch, float deltaTime){
+        elapsedTime += deltaTime;
+        batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
     }
 }
