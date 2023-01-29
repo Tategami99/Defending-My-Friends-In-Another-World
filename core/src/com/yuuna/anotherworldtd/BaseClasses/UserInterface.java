@@ -1,6 +1,7 @@
 package com.yuuna.anotherworldtd.BaseClasses;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -20,6 +21,7 @@ public class UserInterface{
     private EntityManager entityManager;
     private int worldWidth, worldHeight;
     private int tileWidth, tileHeight;
+    private int numOTilesVertical, numOTilesHorizontal;
     private boolean endless;
     private UserInterface  ui = this;
 
@@ -28,7 +30,7 @@ public class UserInterface{
     private Table topTable;
     private Table characterSelectorEndlessTable;
 
-    public UserInterface(TowerDefenseGame game, Stage stage, EntityManager entityManager, int worldWidth, int worldHeight, int tileWidth, int tileHeight, boolean endless){
+    public UserInterface(TowerDefenseGame game, Stage stage, EntityManager entityManager, MapProperties mapProperties, boolean endless){
         System.out.println("new ui");
         UserInterfaceAssets.loadUserInterface();
 
@@ -36,10 +38,12 @@ public class UserInterface{
         this.game = game;
         this.stage = stage;
         this.entityManager = entityManager;
-        this.worldWidth = worldWidth;
-        this.worldHeight = worldHeight;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
+        numOTilesHorizontal = mapProperties.get("width", Integer.class);
+        numOTilesVertical = mapProperties.get("height", Integer.class);
+        tileWidth = mapProperties.get("tilewidth", Integer.class);
+        tileHeight = mapProperties.get("tileheight", Integer.class);
+        worldWidth = numOTilesHorizontal*tileWidth;
+        worldHeight = numOTilesVertical*tileHeight;
         this.endless = endless;
 
         //pause menu stuff

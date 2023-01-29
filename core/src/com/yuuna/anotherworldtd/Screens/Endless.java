@@ -77,8 +77,8 @@ public class Endless extends ScreenAdapter {
 		entityManager = new EntityManager((TiledMapTileLayer) EndlessAssets.endlessMap.getLayers().get(0), game, stage);
 
 		//user interface stuff
-		ui = new UserInterface(game, stage, entityManager, worldWidth, worldHeight, tileWidth, tileHeight, true);
-		input = new InputStuff();
+		ui = new UserInterface(game, stage, entityManager, EndlessAssets.endlessMapProperties, true);
+		input = new InputStuff(entityManager, EndlessAssets.endlessMapProperties);
 
 		//tilemap stuff
 		EndlessAssets.endlessRenderer.setView(camera);
@@ -105,7 +105,6 @@ public class Endless extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		entityManager.createAlly(AllySelection.mageAlly, 4, 9);
 	}
 
 	@Override

@@ -2,11 +2,29 @@ package com.yuuna.anotherworldtd.BaseClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.maps.MapProperties;
 import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+import com.yuuna.anotherworldtd.Tools.EntityManager;
 
 public class InputStuff implements InputProcessor{
+    private EntityManager entityManager;
+    private int worldWidth, worldHeight;
+    private int tileWidth, tileHeight;
+    private int numOTilesVertical, numOTilesHorizontal;
+
     public static float mouseXworld, mouseYworld;
     public static int columnHovering, rowHovering;
+
+    public InputStuff(EntityManager entityManager, MapProperties mapProperties){
+        this.entityManager = entityManager;
+
+        numOTilesHorizontal = mapProperties.get("width", Integer.class);
+        numOTilesVertical = mapProperties.get("height", Integer.class);
+        tileWidth = mapProperties.get("tilewidth", Integer.class);
+        tileHeight = mapProperties.get("tileheight", Integer.class);
+        worldWidth = numOTilesHorizontal*tileWidth;
+        worldHeight = numOTilesVertical*tileHeight;
+    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -28,7 +46,17 @@ public class InputStuff implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
+        int columnToPlace = columnHovering;
+        int rowToPlace = rowHovering;
+        if(CoolMethGames.isOdd(columnToPlace)){
+            columnToPlace--;
+        }
+        if(CoolMethGames.isEven(rowToPlace)){
+            rowToPlace--;
+        }
+        if(entityManager.selectedAlly != null && CoolMethGames.inRange(columnToPlace, 4, 25, true) && CoolMethGames.inRange(rowToPlace, 3, 14, true)){
+            entityManager.createAlly(entityManager.selectedAlly, columnToPlace*tileWidth, rowToPlace*tileHeight);
+        }
         return false;
     }
 

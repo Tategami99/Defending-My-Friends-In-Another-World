@@ -41,9 +41,11 @@ public class EntityManager {
         switch(ally){
             case mageAlly:
                 if(MageAlly.resting && !MageAlly.immobile){
-                    mageAlly = new MageAlly(xPos*gameLayer.getTileWidth(), yPos*gameLayer.getTileHeight());
+                    mageAlly = new MageAlly(xPos, yPos);
                     MageAlly.resting = false;
                 }
+                break;
+            default:
                 break;
         }
     }
