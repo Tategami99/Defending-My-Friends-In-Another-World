@@ -41,7 +41,7 @@ public class Allies {
 
         public KatanaAlly(float xPos, float yPos, int tileWidth, int tileHeight){
             typeOfAlly = allyType;
-            attackArea = AttackArea.InFront;
+            attackArea = AttackArea.FrontThree;
 
             initializePosition(
             (int) xPos/tileWidth, 

@@ -25,12 +25,12 @@ public class EntityManager {
     private int worldWidth, worldHeight;
     private boolean[][] enemiesOccupying =
     {
-        {false, false, false, false, false, false, false, false, false, false, true,},
-        {false, false, false, false, false, false, false, false, false, false, false,},
-        {false, false, false, false, false, false, false, false, false, false, false,},
-        {false, false, false, false, false, false, false, false, false, false, false,},
-        {false, false, false, false, false, false, false, false, false, false, false,},
-        {false, false, false, false, false, false, false, false, false, false, false,}
+        {false, false, false, false, false, false, false, false, false, false, true, false},
+        {false, false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false, false}
     }; // [row][column]
 
     //allies
@@ -60,6 +60,7 @@ public class EntityManager {
         tileHeight = mapProperties.get("tileheight", Integer.class);
         worldWidth = numOTilesHorizontal*tileWidth;
         worldHeight = numOTilesVertical*tileHeight;
+        System.out.println("eo " + enemiesOccupying[1][10]);
     }
 
     public void render(SpriteBatch batch){

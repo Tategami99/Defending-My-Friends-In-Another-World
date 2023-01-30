@@ -12,7 +12,8 @@ import com.badlogic.gdx.utils.Timer;
 public class Entity {
     //atack area stuff
     public enum AttackArea{
-        InFront
+        InFront,
+        FrontThree
     }
     public AttackArea attackArea = null;
 
@@ -33,7 +34,6 @@ public class Entity {
     public AllySelection typeOfAlly;
 
     private Timer timer = new Timer();
-    private boolean timerCalled;
 
     //initialize methods
     public void initializePosition(int column, int row, float x, float y){
@@ -132,21 +132,14 @@ public class Entity {
     //other methods
     public void render(SpriteBatch batch){
         if(!attacking){
-            timer.scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    attacking = true;
-                    timerCalled = false;
-                }
-            }, interval);
             batch.draw(idleAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
         }
         else{
             timer.scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    attacking = false;
-                    timerCalled = false;
+                    System.out.println("attacked");
+                    timer.clear();
                 }
             }, interval);
             batch.draw(attackAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 0, 0, AllyAssets.baseAllyWidth, AllyAssets.baseAllyHeight, 1, 1, 0);
@@ -157,28 +150,37 @@ public class Entity {
         elapsedTime += deltaTime;
         updatePosition();
         detectEnemies(currentHorizontal, currentVertical, enemyPositions);
-        if(attacking){
-            System.out.println("truuuu");
-        }
     }
     private void updatePosition(){
         // Gdx.app.log("Column and Row", Integer.toString(currentColumn) + " | " + Integer.toString(currentRow));
         currentHorizontal = (currentRow/2) - 1;
         currentVertical = (currentColumn/2) - 2;
-        Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
+        // Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
 
     }
-    private void detectEnemies(int horiziontal, int vertical, boolean[][] enemyPositions) {
+    private void detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
         switch (attackArea) {
             case InFront:
                 for (int i = vertical; i < 11; i++) {
-                    attacking = enemyPositions[horiziontal][i];
+                    attacking = enemyPositions[horizontal][i];
                     if(attacking){
                         break;
                     }
                 }
                 break;
-        
+            case FrontThree:
+                for (int i = horizontal - 1; i < horizontal + 1; i++) {
+                    int oldI = i;
+                    if(i<0){
+                        i = 0;
+                    }
+                    attacking = enemyPositions[i][vertical + 1];
+                    if(attacking){
+                        break;
+                    }
+                    i = oldI;
+                }
+                break;
             default:
                 break;
         }
