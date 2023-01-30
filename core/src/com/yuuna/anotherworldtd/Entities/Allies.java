@@ -12,6 +12,7 @@ public class Allies {
 
         public MageAlly(float xPos, float yPos, int tileWidth, int tileHeight){
             typeOfAlly = allyType;
+            attackArea = AttackArea.InFront;
 
             initializePosition(
             (int) xPos/tileWidth, 
@@ -40,6 +41,7 @@ public class Allies {
 
         public KatanaAlly(float xPos, float yPos, int tileWidth, int tileHeight){
             typeOfAlly = allyType;
+            attackArea = AttackArea.InFront;
 
             initializePosition(
             (int) xPos/tileWidth, 

@@ -23,6 +23,15 @@ public class EntityManager {
     private int tileWidth, tileHeight;
     private int numOTilesVertical, numOTilesHorizontal;
     private int worldWidth, worldHeight;
+    private boolean[][] enemiesOccupying =
+    {
+        {false, false, false, false, false, false, false, false, false, false, true,},
+        {false, false, false, false, false, false, false, false, false, false, false,},
+        {false, false, false, false, false, false, false, false, false, false, false,},
+        {false, false, false, false, false, false, false, false, false, false, false,},
+        {false, false, false, false, false, false, false, false, false, false, false,},
+        {false, false, false, false, false, false, false, false, false, false, false,}
+    }; // [row][column]
 
     //allies
     public static enum AllySelection{
@@ -53,17 +62,34 @@ public class EntityManager {
         worldHeight = numOTilesVertical*tileHeight;
     }
 
-    public void render(SpriteBatch batch, float deltaTime){
-        renderAllies(batch, deltaTime);
+    public void render(SpriteBatch batch){
+        renderAllies(batch);
     }
-
-    public void renderAllies(SpriteBatch batch, float deltaTime){
+    public void renderAllies(SpriteBatch batch){
         if(allyList.size() > 0){
             for (Entity entity : allyList) {
-                entity.render(batch, deltaTime);
+                entity.render(batch);
             }
         }
     }
+
+    public void update(float deltaTime){
+        updateAllies(deltaTime);
+    }
+    private void updateAllies(float deltaTime){
+        if(allyList.size() > 0){
+            for (Entity entity : allyList) {
+                entity.update(deltaTime, enemiesOccupying);
+                // if((enemiesAtLane1 && entity.currentLane == 1)){
+                //     entity.attacking = true;
+                // }
+                // else{
+                //     entity.attacking = false;
+                // }
+            }
+        }
+    }
+
 
     public void createAlly(AllySelection ally, float xPos, float yPos){
         String allyString = "nothing";

@@ -97,6 +97,7 @@ public class Endless extends ScreenAdapter {
 		EndlessAssets.endlessRenderer.getBatch().setProjectionMatrix(camera.combined);
 		batch.setProjectionMatrix(camera.combined);
 
+		entityManager.update(delta);
 		renderStuff(delta);
 
 		stage.act(Gdx.graphics.getDeltaTime());
@@ -130,7 +131,7 @@ public class Endless extends ScreenAdapter {
 		batch.end();
 		EndlessAssets.endlessRenderer.render();
 		batch.begin();
-			entityManager.render(batch, delta);
+			entityManager.render(batch);
 		batch.end();
 	}
 

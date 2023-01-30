@@ -10,13 +10,25 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 
 public class Entity {
+    //atack area stuff
+    public enum AttackArea{
+        InFront
+    }
+    public AttackArea attackArea = null;
+
+    //position
     private float xPos, yPos, width, height;
+    public int currentColumn, currentRow;
+    public int currentHorizontal, currentVertical; // horizontal line  and vertical line in a 64 by 64 placeable area 
+
+    //rendering
     private int interval;
-    private boolean attacking = false;
+    public boolean attacking = false;
+    public float elapsedTime = 0;
+
+    //stats
     public int maxHealth, originalAttack, originalSpeed, originalDefense;
     public int health, attack, speed, defense;
-    public int currentColumn, currentRow;
-    public float elapsedTime = 0;
     private Animation<TextureRegion> idleAnimation, attackAnimation;
     public AllySelection typeOfAlly;
 
@@ -118,8 +130,7 @@ public class Entity {
     }
 
     //other methods
-    public void render(SpriteBatch batch, float deltaTime){
-        elapsedTime += deltaTime;
+    public void render(SpriteBatch batch){
         if(!attacking){
             timer.scheduleTask(new Timer.Task() {
                 @Override
@@ -142,7 +153,36 @@ public class Entity {
         }
     }
 
+    public void update(float deltaTime, boolean[][] enemyPositions){
+        elapsedTime += deltaTime;
+        updatePosition();
+        detectEnemies(currentHorizontal, currentVertical, enemyPositions);
+        if(attacking){
+            System.out.println("truuuu");
+        }
+    }
+    private void updatePosition(){
+        // Gdx.app.log("Column and Row", Integer.toString(currentColumn) + " | " + Integer.toString(currentRow));
+        currentHorizontal = (currentRow/2) - 1;
+        currentVertical = (currentColumn/2) - 2;
+        Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
 
+    }
+    private void detectEnemies(int horiziontal, int vertical, boolean[][] enemyPositions) {
+        switch (attackArea) {
+            case InFront:
+                for (int i = vertical; i < 11; i++) {
+                    attacking = enemyPositions[horiziontal][i];
+                    if(attacking){
+                        break;
+                    }
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
 
 
     //might need it later or not

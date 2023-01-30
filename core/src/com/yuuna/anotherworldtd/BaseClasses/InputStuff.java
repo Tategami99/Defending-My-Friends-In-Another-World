@@ -50,12 +50,16 @@ public class InputStuff implements InputProcessor{
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         int columnToPlace = columnHovering;
         int rowToPlace = rowHovering;
+
+        //get row and column
         if(CoolMethGames.isOdd(columnToPlace)){
             columnToPlace--;
         }
         if(CoolMethGames.isEven(rowToPlace)){
             rowToPlace--;
         }
+
+        //placing and destroying
         boolean inPlaceableArea = CoolMethGames.inRange(columnToPlace, 4, 25, true) && CoolMethGames.inRange(rowToPlace, 3, 14, true);
         if(!TowerDefenseGame.paused && TowerDefenseGame.placing && entityManager.selectedAlly != null && inPlaceableArea){
             entityManager.createAlly(entityManager.selectedAlly, columnToPlace*tileWidth, rowToPlace*tileHeight);
