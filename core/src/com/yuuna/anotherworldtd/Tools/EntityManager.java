@@ -31,7 +31,17 @@ public class EntityManager {
         {false, false, false, false, false, false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false, false, false, false, false, false}
-    }; // [row][column]
+    }; // [row][column] [0][column] bottom row
+    private boolean[][] alliesOccupying =
+    {
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false, false, false}
+    }; // [row][column] [0][column] bottom row
+
 
     //allies
     public static enum AllySelection{
