@@ -1,12 +1,12 @@
 package com.yuuna.anotherworldtd.Entities;
 
-import com.yuuna.anotherworldtd.BaseClasses.Entity;
+import com.yuuna.anotherworldtd.BaseClasses.Ally;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.KatanaAllyAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
 import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
 
 public class Allies {
-    public static class MageAlly extends Entity{
+    public static class MageAlly extends Ally{
         public static boolean resting = true, immobile = false;
         public static AllySelection allyType = AllySelection.mageAlly;
 
@@ -43,7 +43,7 @@ public class Allies {
             return detected;
         }
     }
-    public static class KatanaAlly extends Entity{
+    public static class KatanaAlly extends Ally{
         public static boolean resting = true, immobile = false;
         public static AllySelection allyType = AllySelection.katanaAlly;
 

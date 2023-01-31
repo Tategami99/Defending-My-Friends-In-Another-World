@@ -12,7 +12,7 @@ import com.yuuna.anotherworldtd.Entities.Allies.KatanaAlly;
 import com.yuuna.anotherworldtd.Entities.Allies.MageAlly;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.KatanaAllyAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
-import com.yuuna.anotherworldtd.BaseClasses.Entity;
+import com.yuuna.anotherworldtd.BaseClasses.Ally;
 
 public class EntityManager {
     //game variables
@@ -49,8 +49,8 @@ public class EntityManager {
         katanaAlly
     }
     public AllySelection selectedAlly;
-    private ArrayList<Entity> allyList = new ArrayList<>();
-    private ArrayList<Entity> alliesToRemove = new ArrayList<>();
+    private ArrayList<Ally> allyList = new ArrayList<>();
+    private ArrayList<Ally> alliesToRemove = new ArrayList<>();
 
 
     public EntityManager(TiledMapTileLayer gameLayer, MapProperties mapProperties, TowerDefenseGame game, Stage stage){
@@ -78,7 +78,7 @@ public class EntityManager {
     }
     public void renderAllies(SpriteBatch batch){
         if(allyList.size() > 0){
-            for (Entity entity : allyList) {
+            for (Ally entity : allyList) {
                 entity.render(batch);
             }
         }
@@ -89,7 +89,7 @@ public class EntityManager {
     }
     private void updateAllies(float deltaTime){
         if(allyList.size() > 0){
-            for (Entity entity : allyList) {
+            for (Ally entity : allyList) {
                 entity.update(deltaTime, enemiesOccupying);
                 // if((enemiesAtLane1 && entity.currentLane == 1)){
                 //     entity.attacking = true;
@@ -126,15 +126,15 @@ public class EntityManager {
         Gdx.app.log("Created", allyString);
     }
     public void destroyAlly(float xPos, float yPos, boolean onlyResting){
-        for (Entity entity : allyList) {
-            if(entity.getX() == xPos && entity.getY() == yPos){
+        for (Ally entity : allyList) {
+            if(entity.xPos == xPos && entity.yPos == yPos){
                 alliesToRemove.add(entity);
                 updateAllyStatus(entity, true);
             }
         }
         allyList.removeAll(alliesToRemove);
     }
-    private void updateAllyStatus(Entity entity, boolean onlyResting){
+    private void updateAllyStatus(Ally entity, boolean onlyResting){
         switch (entity.typeOfAlly) {
             case mageAlly:
                 MageAlly.resting = onlyResting;
