@@ -8,11 +8,11 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.yuuna.anotherworldtd.TowerDefenseGame;
+import com.yuuna.anotherworldtd.Entities.Ally;
 import com.yuuna.anotherworldtd.Entities.Allies.KatanaAlly;
 import com.yuuna.anotherworldtd.Entities.Allies.MageAlly;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.KatanaAllyAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
-import com.yuuna.anotherworldtd.BaseClasses.Ally;
 
 public class EntityManager {
     //game variables

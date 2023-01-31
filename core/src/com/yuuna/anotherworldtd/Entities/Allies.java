@@ -1,6 +1,5 @@
 package com.yuuna.anotherworldtd.Entities;
 
-import com.yuuna.anotherworldtd.BaseClasses.Ally;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.KatanaAllyAssets;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets.MageAllyAssets;
 import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;

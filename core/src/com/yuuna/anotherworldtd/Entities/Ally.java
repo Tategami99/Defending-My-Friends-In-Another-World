@@ -1,10 +1,9 @@
-package com.yuuna.anotherworldtd.BaseClasses;
+package com.yuuna.anotherworldtd.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.yuuna.anotherworldtd.Tools.CoolMethGames;
+import com.yuuna.anotherworldtd.BaseClasses.Entity;
 import com.yuuna.anotherworldtd.Tools.AssetManager.AllyAssets;
 import com.yuuna.anotherworldtd.Tools.EntityManager.AllySelection;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
