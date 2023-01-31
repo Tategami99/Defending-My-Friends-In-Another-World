@@ -149,7 +149,7 @@ public class Entity {
     public void update(float deltaTime, boolean[][] enemyPositions){
         elapsedTime += deltaTime;
         updatePosition();
-        detectEnemies(currentHorizontal, currentVertical, enemyPositions);
+        attacking = detectEnemies(currentHorizontal, currentVertical, enemyPositions);
     }
     private void updatePosition(){
         // Gdx.app.log("Column and Row", Integer.toString(currentColumn) + " | " + Integer.toString(currentRow));
@@ -158,33 +158,54 @@ public class Entity {
         // Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
 
     }
-    private void detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
-        switch (attackArea) {
-            case InFront:
-                for (int i = vertical; i < 11; i++) {
-                    attacking = enemyPositions[horizontal][i];
-                    if(attacking){
-                        break;
-                    }
-                }
-                break;
-            case FrontThree:
-                for (int i = horizontal - 1; i < horizontal + 1; i++) {
-                    int oldI = i;
-                    if(i<0){
-                        i = 0;
-                    }
-                    attacking = enemyPositions[i][vertical + 1];
-                    if(attacking){
-                        break;
-                    }
-                    i = oldI;
-                }
-                break;
-            default:
-                break;
+    public boolean detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
+        boolean detected = false;
+        if(attackArea == AttackArea.InFront){
+            for (int i = vertical; i < 11; i++) {
+                detected |= enemyPositions[horizontal][i];
+            }
+            return detected;
         }
+        else if(attackArea == AttackArea.FrontThree){
+            for (int i = horizontal - 1; i < horizontal + 1; i++) {
+                int oldI = i;
+                if(i<0){
+                    i = 0;
+                }
+                detected |= enemyPositions[i][vertical + 1];
+                i = oldI;
+            }
+            return detected;
+        }
+        return detected;
     }
+    // private void detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
+    //     switch (attackArea) {
+    //         case InFront:
+    //             for (int i = vertical; i < 11; i++) {
+    //                 attacking = enemyPositions[horizontal][i];
+    //                 if(attacking){
+    //                     break;
+    //                 }
+    //             }
+    //             break;
+    //         case FrontThree:
+    //             for (int i = horizontal - 1; i < horizontal + 1; i++) {
+    //                 int oldI = i;
+    //                 if(i<0){
+    //                     i = 0;
+    //                 }
+    //                 attacking = enemyPositions[i][vertical + 1];
+    //                 if(attacking){
+    //                     break;
+    //                 }
+    //                 i = oldI;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
 
     //might need it later or not
