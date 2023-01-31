@@ -10,13 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 
 public class Entity {
-    //atack area stuff
-    public enum AttackArea{
-        InFront,
-        FrontThree
-    }
-    public AttackArea attackArea = null;
-
     //position
     private float xPos, yPos, width, height;
     public int currentColumn, currentRow;
@@ -149,7 +142,7 @@ public class Entity {
     public void update(float deltaTime, boolean[][] enemyPositions){
         elapsedTime += deltaTime;
         updatePosition();
-        attacking = detectEnemies(currentHorizontal, currentVertical, enemyPositions);
+        attacking = detectOpp(currentHorizontal, currentVertical, enemyPositions);
     }
     private void updatePosition(){
         // Gdx.app.log("Column and Row", Integer.toString(currentColumn) + " | " + Integer.toString(currentRow));
@@ -158,26 +151,8 @@ public class Entity {
         // Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
 
     }
-    public boolean detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
-        boolean detected = false;
-        if(attackArea == AttackArea.InFront){
-            for (int i = vertical; i < 11; i++) {
-                detected |= enemyPositions[horizontal][i];
-            }
-            return detected;
-        }
-        else if(attackArea == AttackArea.FrontThree){
-            for (int i = horizontal - 1; i < horizontal + 1; i++) {
-                int oldI = i;
-                if(i<0){
-                    i = 0;
-                }
-                detected |= enemyPositions[i][vertical + 1];
-                i = oldI;
-            }
-            return detected;
-        }
-        return detected;
+    public boolean detectOpp(int horizontal, int vertical, boolean[][] enemyPositions) {
+        return false;
     }
     // private void detectEnemies(int horizontal, int vertical, boolean[][] enemyPositions) {
     //     switch (attackArea) {

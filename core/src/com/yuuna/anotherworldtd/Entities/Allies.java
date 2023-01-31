@@ -12,7 +12,6 @@ public class Allies {
 
         public MageAlly(float xPos, float yPos, int tileWidth, int tileHeight){
             typeOfAlly = allyType;
-            attackArea = AttackArea.InFront;
 
             initializePosition(
             (int) xPos/tileWidth, 
@@ -34,6 +33,15 @@ public class Allies {
             resting = true;
             immobile = false;
         }
+        //detects everything in front of it in that lane
+        @Override
+        public boolean detectOpp(int horizontal, int vertical, boolean[][] enemyPositions) {
+            boolean detected = false;
+            for (int i = vertical; i < 11; i++) {
+                detected |= enemyPositions[horizontal][i];
+            }
+            return detected;
+        }
     }
     public static class KatanaAlly extends Entity{
         public static boolean resting = true, immobile = false;
@@ -41,7 +49,6 @@ public class Allies {
 
         public KatanaAlly(float xPos, float yPos, int tileWidth, int tileHeight){
             typeOfAlly = allyType;
-            attackArea = AttackArea.FrontThree;
 
             initializePosition(
             (int) xPos/tileWidth, 
@@ -57,6 +64,24 @@ public class Allies {
                 KatanaAllyAssets.katanaAllyAttackAnimation,
                 2
             );
+        }
+        public static void resetAllyStatus(){
+            resting = true;
+            immobile = false;
+        }
+        //detects the three spaces in front of it
+        @Override
+        public boolean detectOpp(int horizontal, int vertical, boolean[][] enemyPositions) {
+            boolean detected = false;
+            for (int i = horizontal - 1; i < horizontal + 1; i++) {
+                int oldI = i;
+                if(i<0){
+                    i = 0;
+                }
+                detected |= enemyPositions[i][vertical + 1];
+                i = oldI;
+            }
+            return detected;
         }
     }
 }
