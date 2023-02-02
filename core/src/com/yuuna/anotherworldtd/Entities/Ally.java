@@ -92,7 +92,7 @@ public class Ally extends Entity{
             goodPositions[oldHorizontal][oldVertical] = false;
         }
         goodPositions[currentHorizontal][currentVertical] = true;
-        System.out.println(Boolean.toString(goodPositions[5][10]));
+        // System.out.println(Boolean.toString(goodPositions[5][10]));
     }
     @Override
     public boolean detectOpp(int horizontal, int vertical, boolean[][] oppPositions) {

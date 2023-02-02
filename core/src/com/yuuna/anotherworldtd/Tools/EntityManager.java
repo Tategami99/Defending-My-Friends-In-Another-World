@@ -23,7 +23,7 @@ public class EntityManager {
     private int tileWidth, tileHeight;
     private int numOTilesVertical, numOTilesHorizontal;
     private int worldWidth, worldHeight;
-    private boolean[][] enemiesOccupying =
+    public boolean[][] enemiesOccupying =
     {
         {false, false, false, false, false, false, false, false, false, false, true, false},
         {false, false, false, false, false, false, false, false, false, false, false, false},
@@ -32,7 +32,7 @@ public class EntityManager {
         {false, false, false, false, false, false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false, false, false, false, false, false}
     }; // [row][column] [0][column] bottom row
-    private boolean[][] alliesOccupying =
+    public boolean[][] alliesOccupying =
     {
         {false, false, false, false, false, false, false, false, false, false, false},
         {false, false, false, false, false, false, false, false, false, false, false},
@@ -91,12 +91,6 @@ public class EntityManager {
         if(allyList.size() > 0){
             for (Ally ally : allyList) {
                 ally.update(deltaTime, enemiesOccupying, alliesOccupying);
-                // if((enemiesAtLane1 && entity.currentLane == 1)){
-                //     entity.attacking = true;
-                // }
-                // else{
-                //     entity.attacking = false;
-                // }
             }
         }
     }
@@ -125,11 +119,12 @@ public class EntityManager {
         }
         Gdx.app.log("Created", allyString);
     }
-    public void destroyAlly(float xPos, float yPos, boolean onlyResting){
+    public void destroyAlly(float xPos, float yPos, boolean[][] pos,  boolean onlyResting){
         for (Ally ally : allyList) {
             if(ally.xPos == xPos && ally.yPos == yPos){
                 alliesToRemove.add(ally);
                 updateAllyStatus(ally, true);
+                pos[ally.currentHorizontal][ally.currentVertical] = false;
             }
         }
         allyList.removeAll(alliesToRemove);

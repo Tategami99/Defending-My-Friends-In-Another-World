@@ -65,7 +65,7 @@ public class InputStuff implements InputProcessor{
             entityManager.createAlly(entityManager.selectedAlly, columnToPlace*tileWidth, rowToPlace*tileHeight);
         }
         else if (!TowerDefenseGame.paused && !TowerDefenseGame.placing && inPlaceableArea){
-            entityManager.destroyAlly(columnToPlace*tileWidth, rowToPlace*tileHeight, true);
+            entityManager.destroyAlly(columnToPlace*tileWidth, rowToPlace*tileHeight, entityManager.alliesOccupying ,true);
             TowerDefenseGame.placing = true;
         }
         return false;
