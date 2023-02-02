@@ -78,8 +78,8 @@ public class EntityManager {
     }
     public void renderAllies(SpriteBatch batch){
         if(allyList.size() > 0){
-            for (Ally entity : allyList) {
-                entity.render(batch);
+            for (Ally ally : allyList) {
+                ally.render(batch);
             }
         }
     }
@@ -89,8 +89,8 @@ public class EntityManager {
     }
     private void updateAllies(float deltaTime){
         if(allyList.size() > 0){
-            for (Ally entity : allyList) {
-                entity.update(deltaTime, enemiesOccupying);
+            for (Ally ally : allyList) {
+                ally.update(deltaTime, enemiesOccupying, alliesOccupying);
                 // if((enemiesAtLane1 && entity.currentLane == 1)){
                 //     entity.attacking = true;
                 // }
@@ -126,10 +126,10 @@ public class EntityManager {
         Gdx.app.log("Created", allyString);
     }
     public void destroyAlly(float xPos, float yPos, boolean onlyResting){
-        for (Ally entity : allyList) {
-            if(entity.xPos == xPos && entity.yPos == yPos){
-                alliesToRemove.add(entity);
-                updateAllyStatus(entity, true);
+        for (Ally ally : allyList) {
+            if(ally.xPos == xPos && ally.yPos == yPos){
+                alliesToRemove.add(ally);
+                updateAllyStatus(ally, true);
             }
         }
         allyList.removeAll(alliesToRemove);

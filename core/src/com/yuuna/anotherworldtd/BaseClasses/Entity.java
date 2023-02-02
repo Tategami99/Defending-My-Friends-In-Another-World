@@ -12,10 +12,12 @@ public abstract class Entity {
     public boolean defeated = false, resting = true, attacking = false;
 
     //position
+    public int tileWidth, tileHeight;
     public float xPos, yPos, width, height;
     public int currentColumn, currentRow;
     public int currentHorizontal, currentVertical; // horizontal line  and vertical line in a 64 by 64 placeable area 
-    public abstract void initializePosition(int column, int row, float x, float y);
+    public int oldHorizontal, oldVertical; //same thing but old
+    public abstract void initializePosition(int tileWidth, int tileHeight, int column, int row, float x, float y);
 
     //stats
     public int maxHealth, originalAttack, originalSpeed, originalDefense;
@@ -31,7 +33,8 @@ public abstract class Entity {
     public abstract void render(SpriteBatch batch);
 
     //updating
-    public abstract void update(float deltaTime, boolean[][] enemyPositions);
-    public abstract void updatePosition();
-    public abstract boolean detectOpp(int horizontal, int vertical, boolean[][] enemyPositions);
+    public abstract void update(float deltaTime, boolean[][] oppPositions, boolean[][] goodPositions);
+    public abstract void updatePosition(boolean[][] goodPositions);
+    public abstract void move();
+    public abstract boolean detectOpp(int horizontal, int vertical, boolean[][] oppPositions);
 }

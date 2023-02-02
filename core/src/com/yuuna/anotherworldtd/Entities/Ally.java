@@ -14,7 +14,7 @@ public class Ally extends Entity{
 
     //position
     @Override
-    public void initializePosition(int column, int row, float x, float y){
+    public void initializePosition(int tileWidth, int tileHeight, int column, int row, float x, float y){
         currentColumn = column;
         currentRow = row;
         xPos = x;
@@ -70,21 +70,39 @@ public class Ally extends Entity{
 
     //updating
     @Override
-    public void update(float deltaTime, boolean[][] enemyPositions){
+    public void update(float deltaTime, boolean[][] oppPositions, boolean[][] goodPositions){
         elapsedTime += deltaTime;
-        updatePosition();
-        attacking = detectOpp(currentHorizontal, currentVertical, enemyPositions);
+        updatePosition(goodPositions);
+        attacking = detectOpp(currentHorizontal, currentVertical, oppPositions);
     }
     @Override
-    public void updatePosition() {
-        // Gdx.app.log("Column and Row", Integer.toString(currentColumn) + " | " + Integer.toString(currentRow));
+    public void updatePosition(boolean[][] goodPositions) {
+        oldHorizontal = currentHorizontal;
+        oldVertical = currentVertical;
+        move();
+
+        if(tileWidth != 0 && tileHeight != 0){
+            currentRow = (int) xPos/tileWidth;
+            currentColumn = (int) yPos/tileHeight;
+        }
         currentHorizontal = (currentRow/2) - 1;
         currentVertical = (currentColumn/2) - 2;
         // Gdx.app.log("H and V", Integer.toString(currentHorizontal) + " | " + Integer.toString(currentVertical));
+        if(oldHorizontal != currentHorizontal && oldVertical != currentVertical){
+            goodPositions[oldHorizontal][oldVertical] = false;
+        }
+        goodPositions[currentHorizontal][currentVertical] = true;
+        System.out.println(Boolean.toString(goodPositions[5][10]));
     }
     @Override
-    public boolean detectOpp(int horizontal, int vertical, boolean[][] enemyPositions) {
+    public boolean detectOpp(int horizontal, int vertical, boolean[][] oppPositions) {
         //todo make the default one space to the left of the thing
         return false;
+    }
+
+    @Override
+    public void move() {
+        // TODO Auto-generated method stub
+        
     }
 }

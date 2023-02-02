@@ -13,6 +13,8 @@ public class Allies {
             typeOfAlly = allyType;
 
             initializePosition(
+            tileWidth,
+            tileHeight,
             (int) xPos/tileWidth, 
             (int) yPos/tileHeight, 
             xPos, 
@@ -50,6 +52,8 @@ public class Allies {
             typeOfAlly = allyType;
 
             initializePosition(
+            tileWidth,
+            tileHeight,
             (int) xPos/tileWidth, 
             (int) yPos/tileHeight, 
             xPos, 
